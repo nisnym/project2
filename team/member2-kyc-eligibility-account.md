@@ -1,124 +1,81 @@
-# Member 2 — Verification, Account Opening & Notifications
+# Member 2 — KYC, Eligibility & Account (Banking)
 
-> **Owns the "does this customer qualify, and give them an account" core of UC1**,
-> plus the shared **notification** channel every service uses to reach customers.
-> Full plan: [`../docs/00-project-plan.md`](../docs/00-project-plan.md).
+> You own the **UC1 decision logic**: verify the customer (KYC-lite), score their
+> eligibility, and open the account. M1's onboarding app calls your three functions
+> in order. Plan: [`../docs/plan.md`](../docs/plan.md).
 
-## Ownership at a glance
+## Ownership
 
 | Type | You own |
 |------|---------|
-| **Backend services** | `kyc-svc` (8003), `eligibility-svc` (8004), `account-svc` (8005), `notification-svc` (8010) |
-| **Shared platform concern** | **Notification** (email/SMS/push, templating, WebSocket live push) — used by UC1 **and** UC2 |
-| **React feature areas** | `web/src/features/kyc` (doc upload), `web/src/features/eligibility` (result), `web/src/features/account` (dashboard, balances, details), notification toasts/inbox |
-| **DB** | `kyc_cases`, `kyc_documents`, `kyc_checks`, `eligibility_assessments`, `risk_factors`, `accounts`, `notifications`, MinIO objects |
-| **Primary UC** | UC1 (+ notifications span both) |
+| **Django apps** | `kyc`, `eligibility`, `banking` |
+| **React** | KYC form, eligibility result card, **account dashboard** (number, balance, status) |
+| **DB tables** | `KycCase`, `EligibilityResult`, `Account` |
 
-> You own more services than others, but they are **CRUD-shaped** (create case, run rules, persist result) — deliberately balanced against M4's heavy fraud engine.
+## Functions you expose (in-process, called by M1's onboarding)
+```python
+# kyc/services.py
+def verify(application) -> KycResult:
+    # mock rules: identity match + doc check + sanctions/PEP (deterministic for demo)
+    # returns {status: PASS|FAIL|REVIEW, score, checks:{...}}
 
-## Events you produce / consume
+# eligibility/services.py
+def score(application, kyc_result) -> EligibilityResult:
+    # rules + risk_score -> {decision: PASS|FAIL|REVIEW, risk_score, tier, factors[]}
 
-| Direction | Topic |
-|-----------|-------|
-| produce | `kyc.requested`, `kyc.completed`, `eligibility.evaluated`, `account.opened`, `notification.sent` |
-| consume | `customer.captured` (→ start KYC), `kyc.completed` (→ eligibility), `eligibility.evaluated` (→ open account), and for notifications: `account.opened`, `funding.completed`, `transaction.approved`, `transaction.rejected`, `fraud.flagged` |
+# banking/services.py
+def open_account(user, tier="STANDARD") -> Account:   # generate number, balance 0, ACTIVE
+def get_account(account_id) -> Account
+def credit(account, amount)                            # += amount  (called by M3)
+def debit(account, amount)                             # -= amount, raises InsufficientFunds (called by M3)
+```
+> `credit`/`debit` are the **only** way balance changes — M3's payments calls them inside a DB transaction. This keeps the `Account` model's invariants in your app.
 
----
-
-## Flow 1 — KYC-lite verification (kyc-svc, async via Celery)
-
-```mermaid
-sequenceDiagram
-  autonumber
-  participant K as Kafka
-  participant KY as kyc-svc
-  participant C as Celery worker
-  participant P as KYC provider (mock)
-  participant M as MinIO
-  K-->>KY: customer.captured
-  KY->>KY: open kyc_case = PENDING, emit kyc.requested
-  KY->>C: enqueue verify task
-  C->>M: fetch uploaded docs (object_key)
-  C->>P: identity match + doc validity + sanctions/PEP screen
-  P-->>C: results
-  C->>KY: write kyc_checks + score, status = PASS/FAIL/REVIEW
-  KY-->>K: kyc.completed(status, score, checks)
+## Endpoints you expose
+```
+POST /api/kyc/{application_id}/documents   (multipart or metadata) -> 202 {kyc_case_id,status}
+GET  /api/kyc/{application_id}                                     -> {status,score,checks}
+GET  /api/eligibility/{application_id}                             -> {decision,risk_score,tier,factors}
+GET  /api/accounts/me                                             -> [{account_number,balance,status,...}]
+GET  /api/accounts/{id}                                           -> {account_number,balance,...}
 ```
 
-## Flow 2 — Eligibility & risk scoring (eligibility-svc)
-
+## Flow — KYC + eligibility (synchronous rules)
 ```mermaid
 flowchart TB
-  IN[consume kyc.completed] --> R1{sanctions/PEP hit?}
-  R1 -->|yes| FAIL[decision=FAIL]
-  R1 -->|no| SC[compute risk_score 0-100<br/>age, geo, doc quality, kyc score]
-  SC --> T{thresholds}
-  T -->|score &lt; 30| PASS[decision=PASS<br/>product_tier=STANDARD/PREMIUM]
-  T -->|30–60| REVIEW[decision=REVIEW → manual]
-  T -->|&gt; 60| FAIL
-  PASS --> EV[persist assessment + risk_factors<br/>emit eligibility.evaluated]
-  REVIEW --> EV
-  FAIL --> EV
+  V[verify(application)] --> R1{sanctions/PEP hit?}
+  R1 -->|yes| KF[KYC status=FAIL]
+  R1 -->|no| KP[score docs+identity → PASS/REVIEW]
+  KP --> S[score(application, kyc)]
+  KF --> S
+  S --> D{risk thresholds}
+  D -->|low & kyc PASS| PASS[decision=PASS, tier=STANDARD/PREMIUM]
+  D -->|mid| REVIEW[decision=REVIEW]
+  D -->|high or kyc FAIL| FAIL[decision=FAIL]
 ```
 
-## Flow 3 — Instant account opening (account-svc)
-
+## Flow — account opening
 ```mermaid
 sequenceDiagram
   autonumber
-  participant K as Kafka
-  participant AC as account-svc
-  participant DB as account_db
-  K-->>AC: eligibility.evaluated(PASS, tier)
-  AC->>AC: generate account_number (checksum) + IFSC/SWIFT
-  AC->>DB: insert account = ACTIVE, balance 0
-  AC-->>K: account.opened(account_id, account_number, ifsc, swift)
-  Note over AC: returned instantly to customer via onboarding status
+  participant ON as onboarding (M1)
+  participant AC as banking.services
+  participant SIG as signals bus
+  ON->>AC: open_account(user, tier)
+  AC->>AC: generate account_number (checksum), balance=0, status=ACTIVE
+  AC-)SIG: emit account_opened  # notifications + audit receivers (M4) react
+  AC-->>ON: Account
 ```
 
-## Flow 4 — Notification fan-out (notification-svc, shared)
+## You depend on
+- `core.events.event_signal` — emit `account_opened` (and optionally `kyc_completed`) from `core/events.py` (**M1** scaffold); M4's audit + notifications receivers react. No direct call to M4 needed.
 
-```mermaid
-flowchart LR
-  subgraph events[Consumes many topics]
-    A[account.opened]:::e
-    B[funding.completed]:::e
-    C[transaction.approved]:::e
-    D[transaction.rejected]:::e
-    E[fraud.flagged]:::e
-  end
-  events --> ROUTE[Template router<br/>event → template + channel]
-  ROUTE --> Q[Celery queue]
-  Q --> EMAIL[Email adapter]
-  Q --> SMS[SMS adapter]
-  Q --> PUSH[WebSocket push /ws/notifications]
-  EMAIL & SMS & PUSH --> LOG[persist notification + emit notification.sent]
-  classDef e fill:#fff2cc,stroke:#d6b656;
-```
-
-## Frontend — your React areas
-
-```mermaid
-flowchart LR
-  KUP[KYC upload<br/>presigned PUT → MinIO] --> ERES[Eligibility result card]
-  ERES --> ADASH[Account dashboard<br/>acct no · IFSC/SWIFT · balance · status]
-  NOT[Notification bell + inbox<br/>live via WebSocket] -.-> ADASH
-```
-
----
-
-## Your build checklist
-- [ ] `kyc-svc`: case model, presigned-upload contract, **Celery** verify task calling a **mock provider** (deterministic rules for demo), `kyc_checks`, emit `kyc.requested`/`kyc.completed`.
-- [ ] MinIO bucket + presigned PUT/GET; React upload widget (rendered inside M1's wizard).
-- [ ] `eligibility-svc`: declarative rule set + risk score, `risk_factors` explainability, emit `eligibility.evaluated`.
-- [ ] `account-svc`: account-number generator (checksum), IFSC/SWIFT assignment, emit `account.opened`; `GET /accounts/me`, `GET /accounts/{id}`.
-- [ ] `notification-svc`: template registry, channel adapters (email/SMS/push mock), **WebSocket** endpoint, consume the topic list above, emit `notification.sent`.
-- [ ] React: eligibility result card, account dashboard, notification bell/inbox.
-
-## What others need from you
-1. `account.opened` event with a real account number → **M3's funding-svc** treats the account as usable (**IC-2**).
-2. `notification-svc` consuming events → M3/M4 get customer notifications for free (**IC-3**).
-3. Presigned-upload contract for M1's wizard (**IC-2**).
+## Build checklist
+- [ ] `kyc`: `KycCase` model, `verify()` mock rules, endpoints; optional `FileField` doc upload (or store metadata).
+- [ ] `eligibility`: `EligibilityResult` model, `score()` rules + `factors`, endpoint.
+- [ ] `banking`: `Account` model, `open_account/get_account/credit/debit`, `/api/accounts/*` endpoints; `InsufficientFunds` exception for M3; **emit `account_opened` signal**.
+- [ ] React: KYC form (inside M1's wizard), eligibility result card, account dashboard.
+- [ ] Give M3 the `credit/debit` signatures early so payments can integrate.
 
 ## Definition of done
-Unit tests ≥70% on rule/scoring logic · OpenAPI published · async KYC path works under Celery · notification templates for every consumed event · emits/consumes documented events · `/livez` `/readyz` · Dockerfile + compose entry.
+Migrations run · endpoints in `/api/docs` · `verify`/`score`/`open_account` callable and unit-tested · account dashboard shows a real account · `credit`/`debit` enforce balance rules.

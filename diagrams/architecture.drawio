@@ -1,0 +1,116 @@
+<mxfile host="app.diagrams.net" agent="claude-code" version="24.0.0" type="device">
+  <diagram id="arch" name="Architecture (Monolith)">
+    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titleL" value="Architecture — one Django project (modular monolith), one database, synchronous" style="text;html=1;fontSize=15;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="1000" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="react" value="React SPA (Vite + TS)&#10;Customer UI (onboard · fund · transfer) + Ops UI (fraud · audit)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="300" y="50" width="480" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="django" value="Django 5 + DRF — single project, single process (JWT HS256, /api/docs Swagger)" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=center;fontStyle=1;fillColor=#f5f5f5;strokeColor=#666666;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="60" y="160" width="960" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="a_accounts" value="accounts&#10;JWT auth&#10;(M1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="90" y="210" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a_onb" value="onboarding&#10;workflow&#10;(M1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="250" y="210" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a_kyc" value="kyc&#10;(M2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="410" y="210" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a_elig" value="eligibility&#10;(M2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="570" y="210" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a_bank" value="banking&#10;accounts&#10;(M2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="730" y="210" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a_pay" value="payments&#10;funding · transfers · ledger&#10;(M3)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="90" y="300" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="a_fraud" value="fraud&#10;rules engine&#10;(M4)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="330" y="300" width="150" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="a_ops" value="ops + audit&#10;cases · audit log&#10;(M4)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="520" y="300" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="a_notif" value="notifications&#10;in-app&#10;(M4)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="730" y="300" width="150" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="pg" value="PostgreSQL&#10;(one database)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="450" y="450" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="le1" value="login → JWT" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="react" target="a_accounts"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le2" value="REST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="react" target="a_onb"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le3" value="REST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="react" target="a_pay"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le4" value="REST" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="react" target="a_ops"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="a_onb" target="a_kyc"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="a_kyc" target="a_elig"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="a_elig" target="a_bank"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le8" value="sync call" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="a_pay" target="a_fraud"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="a_pay" target="pg"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="a_bank" target="pg"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="a_ops" target="pg"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="legendL" value="Colours = owner:  blue=M1   orange=M2   green=M3   purple=M4.   Arrows inside Django = in-process Python calls (no network, no Kafka)." style="text;html=1;align=left;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="560" width="1000" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="er" name="Data Model">
+    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titleE" value="Data Model — ~10 tables in ONE database (funding + transfer = one TRANSACTION model)" style="text;html=1;fontSize=15;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="1050" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="t_user" value="&lt;b&gt;USER&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;email&lt;br&gt;role" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="t_app" value="&lt;b&gt;ONBOARDING_APPLICATION&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;user_id FK&lt;br&gt;status&lt;br&gt;customer_info json" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="380" y="60" width="240" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="t_kyc" value="&lt;b&gt;KYC_CASE&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;application_id FK&lt;br&gt;status&lt;br&gt;score&lt;br&gt;checks json" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="740" y="60" width="230" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="t_elig" value="&lt;b&gt;ELIGIBILITY_RESULT&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;application_id FK&lt;br&gt;decision&lt;br&gt;risk_score&lt;br&gt;factors json" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="740" y="230" width="230" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="t_acc" value="&lt;b&gt;ACCOUNT&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;user_id FK&lt;br&gt;account_number&lt;br&gt;currency&lt;br&gt;balance&lt;br&gt;status" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="230" width="220" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="t_txn" value="&lt;b&gt;TRANSACTION&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;account_id FK&lt;br&gt;type (FUNDING/TRANSFER)&lt;br&gt;amount / currency&lt;br&gt;rail (DOMESTIC/INTL)&lt;br&gt;status&lt;br&gt;idempotency_key UK" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="380" y="230" width="240" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="t_led" value="&lt;b&gt;LEDGER_ENTRY&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;txn_id FK&lt;br&gt;direction (DEBIT/CREDIT)&lt;br&gt;amount&lt;br&gt;balance_after" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="380" y="420" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="t_fdec" value="&lt;b&gt;FRAUD_DECISION&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;txn_id FK&lt;br&gt;score&lt;br&gt;decision (APPROVE/REJECT/REVIEW)&lt;br&gt;signals json" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="740" y="420" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="t_fcase" value="&lt;b&gt;FRAUD_CASE&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;decision_id FK&lt;br&gt;status&lt;br&gt;resolution" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="740" y="600" width="240" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="t_notif" value="&lt;b&gt;NOTIFICATION&lt;/b&gt;&lt;hr&gt;id PK&lt;br&gt;user_id FK&lt;br&gt;message&lt;br&gt;read (bool)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#ffffff;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="t_audit" value="&lt;b&gt;AUDIT_LOG&lt;/b&gt; (written by all apps)&lt;hr&gt;id PK&lt;br&gt;event_type&lt;br&gt;actor_id&lt;br&gt;payload json&lt;br&gt;created_at" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=6;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="590" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="le_r1" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERmany;startArrow=ERone;" edge="1" parent="1" source="t_user" target="t_app"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le_r2" value="1 : 1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERone;startArrow=ERone;" edge="1" parent="1" source="t_app" target="t_kyc"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le_r3" value="1 : 1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERone;startArrow=ERone;" edge="1" parent="1" source="t_app" target="t_elig"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le_r4" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERmany;startArrow=ERone;" edge="1" parent="1" source="t_user" target="t_acc"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le_r5" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERmany;startArrow=ERone;" edge="1" parent="1" source="t_acc" target="t_txn"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le_r6" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERmany;startArrow=ERone;" edge="1" parent="1" source="t_txn" target="t_led"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le_r7" value="1 : 1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERone;startArrow=ERone;" edge="1" parent="1" source="t_txn" target="t_fdec"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le_r8" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERmany;startArrow=ERone;" edge="1" parent="1" source="t_fdec" target="t_fcase"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="le_r9" value="1 : N" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=ERmany;startArrow=ERone;" edge="1" parent="1" source="t_user" target="t_notif"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
