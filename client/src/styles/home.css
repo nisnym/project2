@@ -1,0 +1,397 @@
+/* ==========================================================================
+   IND BANK — public homepage
+
+   Same boxy vocabulary as the app, given more air. The one liberty it takes is
+   the editorial headline set in the display serif at a size the app never uses,
+   because a front door should establish the voice the consoles then speak in.
+   ========================================================================== */
+
+.home {
+  min-height: 100vh;
+}
+
+/* --- bar ----------------------------------------------------------------- */
+
+.home__bar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  background: var(--ink);
+  color: var(--ink-inverse);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  min-height: var(--masthead-h);
+}
+
+.home__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 0 var(--s-5);
+  text-decoration: none;
+  color: inherit;
+}
+
+.home__bar-links {
+  display: flex;
+  align-items: stretch;
+}
+
+.home__bar-link {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--s-5);
+  border-left: var(--hair) solid rgba(246, 242, 234, 0.16);
+  font-size: var(--step--2);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: rgba(246, 242, 234, 0.75);
+  text-decoration: none;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.home__bar-link:hover {
+  background: rgba(246, 242, 234, 0.08);
+  color: var(--ink-inverse);
+}
+
+.home__bar-link--cta {
+  background: var(--saffron);
+  color: var(--ink);
+}
+
+.home__bar-link--cta:hover {
+  background: var(--saffron-deep);
+  color: var(--ink-inverse);
+}
+
+/* --- hero ---------------------------------------------------------------- */
+
+.home__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: var(--s-8);
+  align-items: center;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--s-8) var(--s-5);
+}
+
+.home__headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 6.2vw, 4.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  margin-top: var(--s-4);
+}
+
+.home__headline em {
+  font-style: italic;
+  color: var(--saffron-deep);
+}
+
+.home__lede {
+  margin-top: var(--s-5);
+  font-size: var(--step-1);
+  line-height: 1.55;
+  color: var(--ink-mid);
+  max-width: 54ch;
+}
+
+/* The hero plate: a live-looking screening card. It is the product's most
+   distinctive moment, so it is what the front door shows. */
+.home__hero-plate {
+  position: relative;
+  background: var(--surface-raised);
+  border: var(--frame-width) solid var(--frame);
+  box-shadow: 6px 6px 0 var(--ink);
+  animation: draw-in 480ms var(--ease) 120ms backwards;
+}
+
+.home__plate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-3) var(--s-4);
+  border-bottom: var(--frame-width) solid var(--frame);
+  background: var(--surface-sunk);
+}
+
+.home__plate-body {
+  padding: var(--s-4);
+}
+
+.home__meter {
+  display: flex;
+  gap: 2px;
+  height: 26px;
+  margin: var(--s-5) 0 var(--s-2);
+}
+
+.home__meter-cell {
+  flex: 1;
+  border: var(--hair) solid var(--rule-strong);
+  background: var(--surface-raised);
+}
+
+.home__meter-cell[data-on='true'] {
+  background: var(--review);
+  border-color: var(--review);
+  animation: cell-in 260ms var(--ease) backwards;
+}
+
+@keyframes cell-in {
+  from {
+    transform: scaleY(0.2);
+    opacity: 0;
+  }
+}
+
+.home__codes {
+  list-style: none;
+  margin: var(--s-5) 0 0;
+  padding: var(--s-3) 0 0;
+  border-top: var(--hair) solid var(--rule);
+  font-size: var(--step--1);
+  color: var(--ink-mid);
+}
+
+.home__codes li {
+  display: flex;
+  gap: var(--s-3);
+  padding: 4px 0;
+}
+
+.home__codes .mono {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* --- sections ------------------------------------------------------------ */
+
+.home__section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--s-8) var(--s-5);
+  border-top: var(--frame-width) solid var(--frame);
+}
+
+.home__section--sunk {
+  max-width: none;
+  background: var(--ink);
+  color: var(--ink-inverse);
+  border-top: none;
+}
+
+.home__section--sunk .home__section-sub,
+.home__section--sunk .muted {
+  color: rgba(246, 242, 234, 0.66);
+}
+
+.home__section-head {
+  max-width: 1140px;
+  margin: 0 auto var(--s-6);
+}
+
+.home__h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-3);
+  line-height: 1;
+}
+
+.home__section-sub {
+  margin-top: var(--s-3);
+  color: var(--ink-mid);
+  max-width: 62ch;
+  font-size: var(--step-0);
+}
+
+/* --- consoles ------------------------------------------------------------ */
+
+.home__consoles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: var(--hair);
+  background: var(--rule-strong);
+  border: var(--frame-width) solid var(--frame);
+}
+
+.home__console {
+  background: var(--surface);
+  padding: var(--s-5);
+  /* The role's accent as a top rule — the same colour that will greet them
+     inside that console. */
+  border-top: 4px solid var(--accent);
+  transition: background-color var(--dur) var(--ease);
+}
+
+.home__console:hover {
+  background: var(--surface-raised);
+}
+
+.home__console-title {
+  font-size: var(--step-1);
+  margin-top: var(--s-2);
+}
+
+.home__console-head {
+  padding-bottom: var(--s-4);
+  border-bottom: var(--hair) solid var(--rule);
+}
+
+.home__list {
+  list-style: none;
+  margin: var(--s-4) 0 0;
+  padding: 0;
+  font-size: var(--step--1);
+  color: var(--ink-mid);
+}
+
+.home__list li {
+  position: relative;
+  padding: var(--s-2) 0 var(--s-2) var(--s-4);
+  line-height: 1.45;
+}
+
+/* A hard square marker rather than a bullet — everything here is a box. */
+.home__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15px;
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+}
+
+/* --- journey ------------------------------------------------------------- */
+
+.home__journey {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--hair);
+  background: rgba(246, 242, 234, 0.2);
+  border: var(--frame-width) solid rgba(246, 242, 234, 0.28);
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1140px;
+}
+
+.home__step {
+  background: var(--ink);
+  padding: var(--s-5) var(--s-4);
+}
+
+.home__step-n {
+  font-size: var(--step-2);
+  color: var(--saffron);
+  letter-spacing: -0.02em;
+}
+
+.home__step-name {
+  font-size: var(--step-0);
+  margin: var(--s-2) 0 var(--s-2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.home__step .muted {
+  color: rgba(246, 242, 234, 0.62);
+}
+
+/* --- decisions ----------------------------------------------------------- */
+
+.home__decisions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--s-4);
+}
+
+.home__decision {
+  padding: var(--s-5);
+  border: var(--frame-width) solid var(--frame);
+  background: var(--surface);
+}
+
+.home__decision--allow {
+  background: var(--allow-wash);
+}
+.home__decision--review {
+  background: var(--review-wash);
+}
+.home__decision--block {
+  background: var(--block-wash);
+}
+
+.home__note {
+  margin-top: var(--s-5);
+  padding: var(--s-4);
+  border-left: 4px solid var(--saffron);
+  border-block: var(--hair) solid var(--rule-strong);
+  border-right: var(--hair) solid var(--rule-strong);
+  background: var(--saffron-wash);
+  font-size: var(--step--1);
+  max-width: 72ch;
+}
+
+/* --- facts --------------------------------------------------------------- */
+
+.home__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--hair);
+  background: var(--frame);
+  border-block: var(--frame-width) solid var(--frame);
+}
+
+.home__fact {
+  background: var(--paper);
+  padding: var(--s-5) var(--s-4);
+  text-align: center;
+}
+
+.home__fact-value {
+  font-size: var(--step-3);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--s-2);
+}
+
+/* --- close --------------------------------------------------------------- */
+
+.home__close {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--s-8) var(--s-5);
+  text-align: center;
+}
+
+.home__foot {
+  padding: var(--s-5);
+  border-top: var(--hair) solid var(--rule-strong);
+  text-align: center;
+}
+
+/* --- responsive ---------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .home__hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-6);
+    padding: var(--s-6) var(--s-4);
+  }
+
+  .home__section {
+    padding: var(--s-6) var(--s-4);
+  }
+
+  .home__brand,
+  .home__bar-link {
+    padding-inline: var(--s-3);
+  }
+}

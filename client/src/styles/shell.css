@@ -1,0 +1,391 @@
+/* ==========================================================================
+   IND BANK — application chrome
+
+   Four roles share one shell. What changes between them is a single accent
+   variable and the wordmark's role suffix: a customer's screen and an
+   analyst's screen must be recognisably the same institution, but never
+   mistakable for each other at a glance.
+   ========================================================================== */
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--nav-w) 1fr;
+  grid-template-rows: var(--masthead-h) 1fr;
+  grid-template-areas:
+    'masthead masthead'
+    'nav main';
+  min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   MASTHEAD
+   -------------------------------------------------------------------------- */
+
+.masthead {
+  grid-area: masthead;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  background: var(--ink);
+  color: var(--ink-inverse);
+  border-bottom: var(--frame-width) solid var(--ink);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.masthead__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 0 var(--s-4);
+  border-right: var(--hair) solid rgba(246, 242, 234, 0.16);
+  text-decoration: none;
+  color: inherit;
+  min-width: var(--nav-w);
+}
+
+/* The stamp: a hard box with the monogram, letterpressed. It is the one piece
+   of the identity that appears on every screen, so it is drawn rather than
+   imported -- no image to fail to load. */
+.stamp-mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: var(--saffron);
+  color: var(--ink);
+  border: var(--frame-width) solid var(--ink-inverse);
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  flex: none;
+}
+
+.wordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 3px;
+}
+
+.wordmark__name {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  letter-spacing: 0.01em;
+}
+
+.wordmark__role {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--role-accent, var(--saffron));
+}
+
+.masthead__right {
+  display: flex;
+  align-items: stretch;
+}
+
+.masthead__cell {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 0 var(--s-4);
+  border-left: var(--hair) solid rgba(246, 242, 234, 0.16);
+  font-size: var(--step--2);
+  color: rgba(246, 242, 234, 0.72);
+  background: none;
+  transition: background-color var(--dur) var(--ease);
+}
+
+button.masthead__cell:hover {
+  background: rgba(246, 242, 234, 0.08);
+  color: var(--ink-inverse);
+}
+
+.masthead__user {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.25;
+}
+
+.masthead__user strong {
+  font-size: var(--step--1);
+  color: var(--ink-inverse);
+  font-weight: 600;
+}
+
+/* Unread count. A boxed counter, not a round badge. */
+.count-box {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: grid;
+  place-items: center;
+  background: var(--saffron);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.count-box--quiet {
+  background: rgba(246, 242, 234, 0.2);
+  color: var(--ink-inverse);
+}
+
+/* --------------------------------------------------------------------------
+   NAV
+   -------------------------------------------------------------------------- */
+
+.nav {
+  grid-area: nav;
+  border-right: var(--frame-width) solid var(--frame);
+  background: var(--surface);
+  padding: var(--s-4) 0;
+  position: sticky;
+  top: var(--masthead-h);
+  height: calc(100vh - var(--masthead-h));
+  overflow-y: auto;
+}
+
+.nav__group + .nav__group {
+  margin-top: var(--s-5);
+}
+
+.nav__heading {
+  padding: 0 var(--s-4) var(--s-2);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-ghost);
+}
+
+.nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-4);
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--ink-mid);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition:
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+
+.nav__link:hover {
+  background: var(--surface-sunk);
+  color: var(--ink);
+}
+
+.nav__link.is-active {
+  background: var(--surface-raised);
+  border-left-color: var(--role-accent, var(--saffron));
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.nav__foot {
+  margin-top: var(--s-6);
+  padding: var(--s-3) var(--s-4);
+  border-top: var(--hair) solid var(--rule);
+}
+
+/* --------------------------------------------------------------------------
+   MAIN
+   -------------------------------------------------------------------------- */
+
+.main {
+  grid-area: main;
+  padding: var(--s-5);
+  min-width: 0;
+}
+
+.page {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.page__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+  padding-bottom: var(--s-3);
+  margin-bottom: var(--s-5);
+  border-bottom: var(--frame-width) solid var(--frame);
+}
+
+.page__title {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.page__sub {
+  margin-top: var(--s-2);
+  font-size: var(--step--1);
+  color: var(--ink-mid);
+  max-width: 62ch;
+}
+
+/* --------------------------------------------------------------------------
+   LAYOUT HELPERS
+   -------------------------------------------------------------------------- */
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(300px, 1fr);
+  gap: var(--s-4);
+  align-items: start;
+}
+
+.split--wide-right {
+  grid-template-columns: minmax(300px, 1fr) minmax(0, 1.65fr);
+}
+
+/* --------------------------------------------------------------------------
+   AUTH SCREENS — no shell, a single framed plate on the ledger ground.
+   -------------------------------------------------------------------------- */
+
+.gate {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--s-5);
+}
+
+.gate__plate {
+  width: 100%;
+  max-width: 430px;
+}
+
+.gate__masthead {
+  background: var(--ink);
+  color: var(--ink-inverse);
+  padding: var(--s-5);
+  border: var(--frame-width) solid var(--ink);
+  border-bottom: none;
+  text-align: center;
+}
+
+.gate__name {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  line-height: 1;
+  margin-top: var(--s-3);
+}
+
+.gate__tagline {
+  margin-top: var(--s-2);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--saffron);
+}
+
+.gate__rule {
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--saffron) 0 12px,
+    var(--ink) 12px 24px
+  );
+  border-inline: var(--frame-width) solid var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE — the nav collapses to a top rail before the content squeezes.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'masthead'
+      'nav'
+      'main';
+  }
+
+  .nav {
+    position: static;
+    height: auto;
+    display: flex;
+    gap: var(--s-1);
+    overflow-x: auto;
+    padding: var(--s-2);
+    border-right: none;
+    border-bottom: var(--frame-width) solid var(--frame);
+  }
+
+  .nav__group {
+    display: flex;
+    gap: var(--s-1);
+  }
+
+  .nav__group + .nav__group {
+    margin-top: 0;
+  }
+
+  .nav__heading,
+  .nav__foot {
+    display: none;
+  }
+
+  .nav__link {
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+  }
+
+  .nav__link.is-active {
+    border-left: none;
+    border-bottom-color: var(--role-accent, var(--saffron));
+  }
+
+  .masthead__brand {
+    min-width: 0;
+  }
+
+  .split,
+  .split--wide-right,
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .main {
+    padding: var(--s-4) var(--s-3);
+  }
+}
+
+@media (max-width: 560px) {
+  .masthead__cell--hide-sm {
+    display: none;
+  }
+}

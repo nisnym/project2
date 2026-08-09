@@ -1,0 +1,777 @@
+/* ==========================================================================
+   IND BANK — the boxy component kit
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   PANEL — the fundamental unit. Everything lives in one.
+
+   The corner ticks are the signature: instead of softening a corner with a
+   radius, the design marks it, the way a printer's crop mark does. They are
+   drawn with two gradients on a pseudo-element so they cost no extra DOM.
+   -------------------------------------------------------------------------- */
+
+.panel {
+  position: relative;
+  background: var(--surface);
+  border: var(--hair) solid var(--rule-strong);
+}
+
+.panel--framed {
+  border: var(--frame-width) solid var(--frame);
+}
+
+.panel--raised {
+  background: var(--surface-raised);
+  border: var(--frame-width) solid var(--frame);
+  box-shadow: var(--shadow-hard);
+}
+
+.panel--sunk {
+  background: var(--surface-sunk);
+}
+
+.panel__ticks::before,
+.panel__ticks::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  pointer-events: none;
+  border-color: var(--saffron);
+  border-style: solid;
+}
+
+.panel__ticks::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.panel__ticks::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+.panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-bottom: var(--hair) solid var(--rule-strong);
+  background: var(--surface-sunk);
+  min-height: 40px;
+}
+
+.panel__title {
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.panel__body {
+  padding: var(--s-4);
+}
+
+.panel__body--flush {
+  padding: 0;
+}
+
+.panel__foot {
+  padding: var(--s-3) var(--s-4);
+  border-top: var(--hair) solid var(--rule-strong);
+  background: var(--surface-sunk);
+}
+
+/* --------------------------------------------------------------------------
+   BUTTON — hard offset shadow, and the press physically moves the box onto it.
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  padding: 9px var(--s-4);
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: var(--frame-width) solid var(--frame);
+  background: var(--surface-raised);
+  color: var(--ink);
+  box-shadow: var(--shadow-hard-sm);
+  transition:
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    background-color var(--dur) var(--ease);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--paper);
+}
+
+.btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.btn:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn--primary {
+  background: var(--saffron);
+  color: var(--ink-inverse);
+  border-color: var(--frame);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--saffron-deep);
+}
+
+.btn--danger {
+  background: var(--block);
+  color: var(--ink-inverse);
+}
+
+.btn--danger:hover:not(:disabled) {
+  background: #741717;
+}
+
+.btn--go {
+  background: var(--allow);
+  color: var(--ink-inverse);
+}
+
+.btn--go:hover:not(:disabled) {
+  background: #0f4531;
+}
+
+.btn--ghost {
+  background: transparent;
+  box-shadow: none;
+  border-width: var(--hair);
+  border-color: var(--rule-strong);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  border-color: var(--frame);
+  background: var(--surface-raised);
+}
+
+.btn--sm {
+  padding: 5px var(--s-3);
+  font-size: var(--step--2);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   FIELD — label above, hard box, error below.
+   -------------------------------------------------------------------------- */
+
+.field {
+  display: block;
+}
+
+.field__label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin-bottom: var(--s-2);
+}
+
+.field__hint {
+  font-size: var(--step--2);
+  color: var(--ink-faint);
+}
+
+.input,
+.select,
+.textarea {
+  display: block;
+  width: 100%;
+  padding: 9px var(--s-3);
+  font-size: var(--step-0);
+  background: var(--surface-raised);
+  border: var(--frame-width) solid var(--frame);
+  color: var(--ink);
+  transition: box-shadow var(--dur) var(--ease);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--ink-ghost);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  box-shadow: var(--shadow-hard-sm);
+}
+
+.input--mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* The amount input is the most important field in the app. It gets the
+   largest type in any form, a permanent currency mark, and tabular figures so
+   digits do not reflow as they are typed. */
+.input--amount {
+  font-family: var(--font-mono);
+  font-size: var(--step-2);
+  font-variant-numeric: tabular-nums;
+  padding-left: 40px;
+  letter-spacing: -0.01em;
+}
+
+.amount-wrap {
+  position: relative;
+}
+
+.amount-wrap__mark {
+  position: absolute;
+  left: var(--s-3);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: var(--step-1);
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+
+.select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position:
+    calc(100% - 16px) calc(50% + 1px),
+    calc(100% - 11px) calc(50% + 1px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: var(--s-6);
+}
+
+.textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+.field__error {
+  margin-top: var(--s-2);
+  font-size: var(--step--1);
+  color: var(--block);
+  font-weight: 500;
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--block);
+  background: var(--block-wash);
+}
+
+/* --------------------------------------------------------------------------
+   STAMP — the fraud decision mark, and status generally.
+
+   BLOCK carries a diagonal hatch as well as colour, so the most consequential
+   state in the product is still unmistakable to someone who cannot separate
+   red from green.
+   -------------------------------------------------------------------------- */
+
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 3px var(--s-2);
+  font-family: var(--font-ui);
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: var(--hair) solid currentColor;
+  white-space: nowrap;
+}
+
+.stamp--allow {
+  color: var(--allow);
+  background: var(--allow-wash);
+}
+
+.stamp--review {
+  color: var(--review);
+  background: var(--review-wash);
+}
+
+.stamp--block {
+  color: var(--block);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--block-wash),
+    var(--block-wash) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  border-width: var(--frame-width);
+}
+
+.stamp--neutral {
+  color: var(--ink-mid);
+  background: var(--surface-sunk);
+}
+
+.stamp--pending {
+  color: var(--ink-mid);
+  background: var(--surface-sunk);
+  border-style: dashed;
+}
+
+.stamp--live {
+  color: var(--saffron-deep);
+  background: var(--saffron-wash);
+}
+
+/* A slow blink on anything actively in flight. It is the only thing in the
+   app that moves on its own, which is what makes it register. */
+.stamp--working::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  animation: pulse 1.4s steps(2, end) infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MONEY — tabular, with the paise set smaller so the rupee figure dominates.
+   -------------------------------------------------------------------------- */
+
+.money {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.money__mark {
+  color: var(--ink-faint);
+  margin-right: 0.15em;
+  font-weight: 400;
+}
+
+.money__minor {
+  font-size: 0.68em;
+  color: var(--ink-faint);
+}
+
+.money--credit {
+  color: var(--credit);
+}
+
+.money--debit {
+  color: var(--debit);
+}
+
+.money--display {
+  font-size: var(--step-4);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.money--lg {
+  font-size: var(--step-2);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   TABLE — a ledger. Hairline rules, sunk header, tabular figures.
+   -------------------------------------------------------------------------- */
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: left;
+  padding: var(--s-2) var(--s-3);
+  background: var(--surface-sunk);
+  border-bottom: var(--frame-width) solid var(--frame);
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.table tbody td {
+  padding: var(--s-3);
+  border-bottom: var(--hair) solid var(--rule);
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr {
+  transition: background-color var(--dur) var(--ease);
+}
+
+.table tbody tr[data-clickable] {
+  cursor: pointer;
+}
+
+.table tbody tr[data-clickable]:hover {
+  background: var(--saffron-wash);
+}
+
+/* A left rule that appears on hover, so the pointer's row is unambiguous in a
+   dense table without the row shifting. */
+.table tbody tr[data-clickable] td:first-child {
+  box-shadow: inset 3px 0 0 transparent;
+  transition: box-shadow var(--dur) var(--ease);
+}
+
+.table tbody tr[data-clickable]:hover td:first-child {
+  box-shadow: inset 3px 0 0 var(--saffron);
+}
+
+.table .num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   SCORE METER — the fraud score as twenty cells, banded by threshold.
+   A number alone does not communicate "how close to blocked"; this does.
+   -------------------------------------------------------------------------- */
+
+.meter {
+  display: flex;
+  gap: 2px;
+  height: 22px;
+}
+
+.meter__cell {
+  flex: 1;
+  border: var(--hair) solid var(--rule-strong);
+  background: var(--surface-raised);
+}
+
+.meter__cell[data-on='true'][data-band='allow'] {
+  background: var(--allow);
+  border-color: var(--allow);
+}
+
+.meter__cell[data-on='true'][data-band='review'] {
+  background: var(--review);
+  border-color: var(--review);
+}
+
+.meter__cell[data-on='true'][data-band='block'] {
+  background: var(--block);
+  border-color: var(--block);
+}
+
+.meter__scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--s-1);
+}
+
+/* --------------------------------------------------------------------------
+   KEY / VALUE — the definition list used on every detail screen.
+   -------------------------------------------------------------------------- */
+
+.kv {
+  display: grid;
+  grid-template-columns: minmax(120px, 34%) 1fr;
+}
+
+.kv > dt {
+  padding: var(--s-2) var(--s-3) var(--s-2) 0;
+  border-bottom: var(--hair) solid var(--rule);
+  font-size: var(--step--2);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.kv > dd {
+  padding: var(--s-2) 0;
+  border-bottom: var(--hair) solid var(--rule);
+  margin: 0;
+  font-size: var(--step--1);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.kv > dt:last-of-type,
+.kv > dd:last-of-type {
+  border-bottom: none;
+}
+
+/* --------------------------------------------------------------------------
+   STAT — a single figure in a box, for dashboards.
+   -------------------------------------------------------------------------- */
+
+.stat {
+  padding: var(--s-3) var(--s-4);
+  border: var(--hair) solid var(--rule-strong);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.stat__value {
+  font-family: var(--font-mono);
+  font-size: var(--step-2);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  margin-top: var(--s-1);
+  letter-spacing: -0.02em;
+}
+
+/* The washes are translucent, and `.stat-grid` paints a dark ground behind its
+   cells to draw the shared hairlines. Applying a wash directly let that dark
+   ground show through and dragged the label text down to an unreadable grey.
+   Compositing the wash over an opaque surface keeps one source of truth for the
+   tint while guaranteeing the cell is opaque. */
+.stat--alert {
+  background:
+    linear-gradient(var(--block-wash), var(--block-wash)),
+    var(--surface-raised);
+  border-color: var(--block);
+}
+
+.stat--alert .stat__value {
+  color: var(--block);
+}
+
+.stat--alert .label,
+.stat--warn .label {
+  color: var(--ink-mid);
+}
+
+.stat--warn {
+  background:
+    linear-gradient(var(--review-wash), var(--review-wash)),
+    var(--surface-raised);
+  border-color: var(--review);
+}
+
+.stat--warn .stat__value {
+  color: var(--review);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--hair);
+  background: var(--rule-strong);
+  border: var(--hair) solid var(--rule-strong);
+}
+
+/* The 1px gap on a dark ground is what draws the shared hairline between
+   cells, so adjacent boxes read as one ruled block rather than as separate
+   floating cards. */
+.stat-grid > .stat {
+  border: none;
+}
+
+/* --------------------------------------------------------------------------
+   EMPTY / LOADING
+   -------------------------------------------------------------------------- */
+
+.empty {
+  padding: var(--s-7) var(--s-4);
+  text-align: center;
+  color: var(--ink-faint);
+}
+
+.empty__mark {
+  font-family: var(--font-mono);
+  font-size: var(--step-2);
+  color: var(--ink-ghost);
+  margin-bottom: var(--s-3);
+  letter-spacing: 0.2em;
+}
+
+.skeleton {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--surface-sunk),
+    var(--surface-sunk) 8px,
+    var(--surface) 8px,
+    var(--surface) 16px
+  );
+  height: 14px;
+  animation: shift 900ms linear infinite;
+}
+
+@keyframes shift {
+  to {
+    background-position: 16px 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   BANNER — inline messages. Hard left bar, no icon, no rounded pill.
+   -------------------------------------------------------------------------- */
+
+.banner {
+  padding: var(--s-3) var(--s-4);
+  border: var(--hair) solid var(--rule-strong);
+  border-left: 4px solid var(--ink-faint);
+  background: var(--surface);
+  font-size: var(--step--1);
+}
+
+.banner--error {
+  border-left-color: var(--block);
+  background: var(--block-wash);
+  color: var(--block);
+}
+
+.banner--warn {
+  border-left-color: var(--review);
+  background: var(--review-wash);
+  color: var(--review);
+}
+
+.banner--ok {
+  border-left-color: var(--allow);
+  background: var(--allow-wash);
+  color: var(--allow);
+}
+
+.banner--info {
+  border-left-color: var(--saffron);
+  background: var(--saffron-wash);
+}
+
+.banner__title {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: var(--step--2);
+  margin-bottom: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   TOAST
+   -------------------------------------------------------------------------- */
+
+.toasts {
+  position: fixed;
+  bottom: var(--s-5);
+  right: var(--s-5);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  max-width: 380px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  padding: var(--s-3) var(--s-4);
+  background: var(--ink);
+  color: var(--ink-inverse);
+  border: var(--frame-width) solid var(--ink);
+  box-shadow: var(--shadow-hard);
+  font-size: var(--step--1);
+  animation: toast-in 200ms var(--ease);
+}
+
+.toast--ok {
+  border-left: 5px solid var(--allow);
+}
+.toast--error {
+  border-left: 5px solid var(--block);
+}
+.toast--info {
+  border-left: 5px solid var(--saffron);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   TABS — boxed, the active one joined to the panel below it.
+   -------------------------------------------------------------------------- */
+
+.tabs {
+  display: flex;
+  border-bottom: var(--frame-width) solid var(--frame);
+}
+
+/* Overlap adjacent tabs by their shared border so the row reads as one ruled
+   strip rather than as tabs with double-thick dividers. `gap` cannot be
+   negative, so the overlap has to come from a margin. */
+.tabs > .tab + .tab {
+  margin-left: calc(-1 * var(--frame-width));
+}
+
+.tab {
+  padding: var(--s-2) var(--s-4);
+  font-size: var(--step--2);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border: var(--hair) solid transparent;
+  border-bottom: none;
+  margin-bottom: calc(-1 * var(--frame-width));
+  background: transparent;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--frame);
+  border-width: var(--frame-width) var(--frame-width) 0;
+  /* Punch a hole in the panel's top rule so the tab and the panel below read
+     as one continuous shape. */
+  box-shadow: 0 var(--frame-width) 0 var(--surface);
+}

@@ -1,0 +1,110 @@
+/* ==========================================================================
+   IND BANK — design tokens
+   --------------------------------------------------------------------------
+   The aesthetic is "ledger terminal": warm accounting paper, hairline rules
+   that form a visible structural grid, hard frames, and absolutely no rounded
+   corners anywhere. Everything sits inside a box because in a ledger,
+   everything sits inside a box.
+
+   Two rules the rest of the CSS depends on:
+     1. Radius is zero. There is no --radius token, deliberately, so nobody
+        can reach for one.
+     2. Money is never set in the UI face. It is always IBM Plex Mono with
+        tabular figures, so columns of numbers line up on the decimal.
+   ========================================================================== */
+
+:root {
+  /* --- ground ---------------------------------------------------------- */
+  --paper: #ece6db;          /* page: aged ledger stock */
+  --surface: #f8f5ef;        /* panel fill */
+  --surface-sunk: #e4ddd0;   /* wells, table headers, inset areas */
+  --surface-raised: #fffdf9;
+
+  /* --- ink ------------------------------------------------------------- */
+  --ink: #17130e;            /* warm near-black, never pure #000 */
+  --ink-mid: #554d44;
+  --ink-faint: #8b8177;
+  --ink-ghost: #b3aa9e;
+  --ink-inverse: #f6f2ea;
+
+  /* --- structure ------------------------------------------------------- */
+  --rule: rgba(23, 19, 14, 0.14);      /* hairline, the ledger grid */
+  --rule-strong: rgba(23, 19, 14, 0.3);
+  --frame: #17130e;                     /* hard 2px frame */
+  --frame-width: 2px;
+  --hair: 1px;
+
+  /* --- accent ---------------------------------------------------------- */
+  --saffron: #c4531c;        /* IND Bank primary */
+  --saffron-deep: #9c3f13;
+  --saffron-wash: rgba(196, 83, 28, 0.09);
+
+  /* --- semantic: money ------------------------------------------------- */
+  --credit: #14583f;         /* money in */
+  --credit-wash: rgba(20, 88, 63, 0.1);
+  --debit: #8e2323;          /* money out */
+  --debit-wash: rgba(142, 35, 35, 0.09);
+
+  /* --- semantic: fraud decision bands ---------------------------------- */
+  /* These three are load-bearing: an analyst reads them at a glance and acts
+     on them. They must stay maximally distinct from each other. */
+  --allow: #14583f;
+  --allow-wash: rgba(20, 88, 63, 0.12);
+  --review: #9a6508;
+  --review-wash: rgba(154, 101, 8, 0.13);
+  --block: #8e1d1d;
+  --block-wash: rgba(142, 29, 29, 0.12);
+
+  /* --- semantic: system state ------------------------------------------ */
+  --ok: #14583f;
+  --warn: #9a6508;
+  --fail: #8e1d1d;
+  --idle: #8b8177;
+
+  /* --- type ------------------------------------------------------------ */
+  --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --font-ui: 'Archivo', 'Helvetica Neue', Helvetica, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+
+  --step--2: 0.6875rem;   /* 11px — micro labels, table meta */
+  --step--1: 0.8125rem;   /* 13px — dense UI, table body */
+  --step-0: 0.9375rem;    /* 15px — body */
+  --step-1: 1.125rem;     /* 18px */
+  --step-2: 1.5rem;       /* 24px */
+  --step-3: 2rem;         /* 32px */
+  --step-4: 2.75rem;      /* 44px — balance display */
+
+  --tracking-label: 0.14em;   /* the small-caps label voice */
+  --tracking-tight: -0.015em;
+
+  /* --- space: a 4px grid, because the layout is a grid ------------------ */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+
+  /* --- chrome ---------------------------------------------------------- */
+  --masthead-h: 60px;
+  --nav-w: 216px;
+  --shadow-hard: 3px 3px 0 var(--ink);       /* offset, never blurred */
+  --shadow-hard-sm: 2px 2px 0 var(--ink);
+
+  --ease: cubic-bezier(0.2, 0, 0.1, 1);
+  --dur: 140ms;
+}
+
+/* Respect a user who has asked the OS to stop moving things. Every animation
+   in this app is decorative; none of it carries information. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

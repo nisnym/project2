@@ -1,0 +1,50 @@
+# Locked runtime dependencies for the banking platform backend.
+#
+# Generated from uv.lock:  uv export --no-hashes --no-emit-project --no-dev -o requirements.txt
+#
+# Prefer `uv sync` -- it is faster and reproduces the lockfile exactly. This file
+# exists so the backend can be installed with plain pip on a machine where uv is
+# not available:
+#
+#     python3.12 -m venv .venv && source .venv/bin/activate
+#     pip install -r requirements.txt
+#     pip install -e ./libs/platform_common
+#
+# `platform_common` is a local package installed in editable mode; the -e line
+# below only works when pip is run from the `server/` directory.
+
+-e ./libs/platform_common
+anyio==4.14.2
+asgiref==3.12.1
+attrs==26.1.0
+cachetools==7.1.7
+certifi==2026.7.22
+cffi==2.1.1 ; platform_python_implementation != 'PyPy'
+croniter==6.2.4
+cryptography==50.0.0
+django==5.2.17
+django-environ==0.14.0
+django-picklefield==3.4.0
+django-q2==1.10.0
+djangorestframework==3.17.2
+drf-spectacular==0.30.0
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.18
+inflection==0.5.1
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+psycopg==3.3.4
+psycopg-binary==3.3.4 ; implementation_name != 'pypy'
+pycparser==3.0 ; implementation_name != 'PyPy' and platform_python_implementation != 'PyPy'
+pyjwt==2.13.0
+python-dateutil==2.9.0.post0
+pyyaml==6.0.3
+referencing==0.37.0
+rpds-py==2026.6.3
+six==1.17.0
+sqlparse==0.5.5
+typing-extensions==4.16.0 ; python_full_version < '3.13'
+tzdata==2026.3 ; sys_platform == 'win32'
+uritemplate==4.2.0

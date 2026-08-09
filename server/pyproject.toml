@@ -1,0 +1,27 @@
+[project]
+name = "banking-server"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "cachetools>=7.1.7",
+    "croniter>=6.2.4",
+    "django>=5.2,<6.0",
+    "django-environ>=0.14.0",
+    "django-q2>=1.7",
+    "djangorestframework>=3.15",
+    "drf-spectacular>=0.30.0",
+    "httpx>=0.28.1",
+    "platform-common",
+    "psycopg[binary]>=3.1",
+    "pyjwt[crypto]>=2.13.0",
+]
+
+[tool.uv.sources]
+platform-common = { path = "libs/platform_common", editable = true }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0,<9",
+    "pytest-cov>=7.1.0",
+    "pytest-django>=4.13.0",
+]
