@@ -5,7 +5,7 @@ export const HOME_FOR_ROLE = {
   CUSTOMER: '/accounts',
   FRAUD_ANALYST: '/fraud/queue',
   OPS: '/ops/queues',
-  ADMIN: '/admin/rules',
+  ADMIN: '/admin/users',
 }
 
 export const ROLE_LABEL = {

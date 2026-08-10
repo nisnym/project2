@@ -141,8 +141,14 @@ export default function TransactionDetail() {
 
   return (
     <Page
-      title={data.reference}
-      subtitle={data.txn_type === 'FUNDING' ? 'Top-up' : 'Transfer'}
+      title={data.transfer_ref ?? data.reference}
+      subtitle={
+        data.txn_type === 'FUNDING'
+          ? 'Top-up'
+          : data.direction === 'CREDIT'
+            ? 'Money received'
+            : 'Transfer'
+      }
       actions={
         <>
           <Button variant="ghost" onClick={() => navigate('/activity')}>
@@ -169,17 +175,55 @@ export default function TransactionDetail() {
             money left your account.
           </Banner>
         )}
-        {data.status === 'SETTLED' && (
+        {data.status === 'SETTLED' && data.direction === 'CREDIT' && (
+          <Banner tone="ok" title="Received">
+            {data.counterparty?.masked
+              ? `Paid in from ${data.counterparty.masked} on `
+              : 'Credited to your account on '}
+            {formatDateTime(data.settled_at)}. The money is already available.
+          </Banner>
+        )}
+        {data.status === 'SETTLED' && data.direction !== 'CREDIT' && (
           <Banner tone="ok" title="Settled">
             Completed {formatDateTime(data.settled_at)}.
+          </Banner>
+        )}
+        {data.status === 'REVERSED' && data.direction === 'CREDIT' && (
+          <Banner tone="error" title="Reversed">
+            {data.status_reason || 'The sending side of this transfer was unwound.'}{' '}
+            The credit has been taken back out of your account.
           </Banner>
         )}
 
         <ErrorBanner error={cancel.error} title="Could not cancel" />
 
         <div className="split">
-          <Panel title="Progress" className="reveal">
-            <Steps steps={data.steps} />
+          <Panel
+            title={data.direction === 'CREDIT' && data.txn_type === 'TRANSFER'
+              ? 'How this reached you'
+              : 'Progress'}
+            className="reveal"
+          >
+            {/* An incoming transfer ran no saga of its own — the sender's did.
+                Showing them an empty step list would read like something had
+                gone wrong. */}
+            {data.direction === 'CREDIT' && data.txn_type === 'TRANSFER' ? (
+              <div className="stack" style={{ '--gap': 'var(--s-3)' }}>
+                <p className="small" style={{ margin: 0 }}>
+                  Someone at IND Bank sent this to your account. It cleared the
+                  same checks every transfer does — limits, fraud screening and a
+                  double-entry posting — on their side, and settled instantly
+                  because both accounts are held here.
+                </p>
+                <p className="tiny faint" style={{ margin: 0 }}>
+                  Their instruction and this credit are two halves of one
+                  movement of money: the same journal entry, quoted under the
+                  same reference on both statements.
+                </p>
+              </div>
+            ) : (
+              <Steps steps={data.steps} />
+            )}
           </Panel>
 
           <div className="stack" style={{ '--gap': 'var(--s-4)' }}>
@@ -201,8 +245,19 @@ export default function TransactionDetail() {
             <Panel title="Details" className="reveal">
               <KeyValue
                 rows={[
-                  ['To', data.beneficiary_masked || '—'],
+                  [
+                    data.counterparty?.label ?? 'To',
+                    <span key="cp" className="mono">
+                      {data.counterparty?.masked ?? '—'}
+                    </span>,
+                  ],
                   ['Route', RAIL_LABELS[data.rail] ?? data.rail],
+                  data.transfer_ref && data.transfer_ref !== data.reference
+                    ? [
+                        'Shared reference',
+                        <span key="tr" className="mono tiny">{data.transfer_ref}</span>,
+                      ]
+                    : null,
                   ['Created', formatDateTime(data.created_at)],
                   ['Updated', formatDateTime(data.updated_at)],
                   data.settled_at ? ['Settled', formatDateTime(data.settled_at)] : null,

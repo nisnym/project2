@@ -189,8 +189,8 @@ export default function SendMoney() {
               </Button>
             }
           >
-            You need someone to pay first. New payees have a short cooling-off
-            period before large transfers are allowed.
+            You need someone to pay first. Payees are usable the moment you add
+            them — every transfer is screened either way.
           </Empty>
         </Panel>
       </Page>
@@ -232,14 +232,6 @@ export default function SendMoney() {
                 />
               )}
             </Field>
-
-            {beneficiary?.in_cooling_off && (
-              <Banner tone="warn" title="Recently added payee">
-                This payee is still in its cooling-off period. Large transfers may
-                be held for review — that is deliberate, and it is what stops an
-                attacker who has taken over an account from emptying it.
-              </Banner>
-            )}
 
             <Field
               label="Amount"

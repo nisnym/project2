@@ -60,6 +60,13 @@ const NAV = {
   ],
   ADMIN: [
     {
+      heading: 'Access',
+      links: [
+        { to: '/admin/users', label: 'Users' },
+        { to: '/admin/approvals', label: 'Approvals' },
+      ],
+    },
+    {
       heading: 'Configure',
       links: [
         { to: '/admin/rules', label: 'Fraud rules' },

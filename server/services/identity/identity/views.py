@@ -15,6 +15,7 @@ from platform_common.errors import ValidationFailed
 
 from . import services
 from .models import User
+from .serializers import ChangePasswordSerializer
 
 
 def _required(data, *fields):
@@ -84,8 +85,18 @@ def me(request):
         "id": str(user.id), "email": user.email, "role": user.role,
         "full_name": user.full_name, "status": user.status,
         "mfa_enabled": user.mfa_enabled,
+        "must_change_password": user.must_change_password,
         "last_login_at": user.last_login_at.isoformat() if user.last_login_at else None,
     })
+
+
+@api_view(["POST"])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticatedPrincipal])
+def change_password(request):
+    payload = ChangePasswordSerializer(data=request.data)
+    payload.is_valid(raise_exception=True)
+    return Response(services.change_password(request.user.id, **payload.validated_data))
 
 
 @api_view(["GET"])

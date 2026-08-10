@@ -18,11 +18,18 @@ import { formatDateTime, isInFlight, RAIL_LABELS } from '../../lib/format'
 
 const FILTERS = [
   { value: 'all', label: 'All', query: '' },
+  { value: 'in', label: 'Received', query: 'direction=CREDIT' },
+  { value: 'out', label: 'Sent', query: 'direction=DEBIT' },
   { value: 'flight', label: 'In flight', query: 'status=INITIATED,VALIDATED,RESERVED,SCREENING,APPROVED,POSTED,DISPATCHED' },
   { value: 'review', label: 'Under review', query: 'status=UNDER_REVIEW' },
   { value: 'done', label: 'Settled', query: 'status=SETTLED' },
   { value: 'stopped', label: 'Stopped', query: 'status=BLOCKED,REJECTED,CANCELLED,FAILED' },
 ]
+
+function TYPE_LABEL(txn) {
+  if (txn.txn_type === 'FUNDING') return 'Top-up'
+  return txn.direction === 'CREDIT' ? 'Received' : 'Transfer'
+}
 
 export default function Activity() {
   const navigate = useNavigate()
@@ -82,7 +89,7 @@ export default function Activity() {
                   <tr>
                     <th>Reference</th>
                     <th>Type</th>
-                    <th>To / from</th>
+                    <th>Counterparty</th>
                     <th>Route</th>
                     <th>When</th>
                     <th>Status</th>
@@ -93,9 +100,15 @@ export default function Activity() {
                 <tbody>
                   {rows.map((txn) => (
                     <tr key={txn.id} data-clickable onClick={() => navigate(`/activity/${txn.id}`)}>
-                      <td className="mono tiny">{txn.reference}</td>
-                      <td className="tiny">{txn.txn_type === 'FUNDING' ? 'Top-up' : 'Transfer'}</td>
-                      <td>{txn.beneficiary_masked || '—'}</td>
+                      <td className="mono tiny">{txn.transfer_ref ?? txn.reference}</td>
+                      <td className="tiny">{TYPE_LABEL(txn)}</td>
+                      <td>
+                        {/* The server decides the wording, because the same
+                            movement of money reads as "sent" to one owner and
+                            "received" to the other. */}
+                        <span className="tiny muted">{txn.counterparty?.label ?? 'To'}</span>{' '}
+                        <span className="mono">{txn.counterparty?.masked ?? '—'}</span>
+                      </td>
                       <td className="tiny muted">{RAIL_LABELS[txn.rail] ?? txn.rail}</td>
                       <td className="tiny muted">{formatDateTime(txn.created_at)}</td>
                       <td>

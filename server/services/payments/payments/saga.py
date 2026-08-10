@@ -115,27 +115,40 @@ def do_validate(txn: Transaction) -> dict:
     beneficiary = result.get("beneficiary") or {}
     txn.beneficiary_masked = beneficiary.get("masked", "")
 
+    # Who actually receives the money, for an internal transfer. account-svc is
+    # the only service that can answer this -- it owns both the payee record and
+    # the account it points at -- so the answer is carried forward here rather
+    # than re-derived at capture time.
+    fields = ["limit_reservation_id", "beneficiary_masked"]
+    if beneficiary.get("credit_account_id"):
+        txn.counterparty_account_id = beneficiary["credit_account_id"]
+        txn.counterparty_user_id = beneficiary.get("credit_user_id")
+        txn.counterparty_masked = beneficiary.get("credit_account_masked", "")
+        fields += ["counterparty_account_id", "counterparty_user_id",
+                   "counterparty_masked"]
+
     # Carry the payee signals forward for SCREEN.
     #
     # These are facts only account-svc holds -- a fingerprint, how old the payee
-    # is, whether it is still inside its cooling-off window -- and a client
-    # cannot be trusted to supply them even if it knew them. Without this the
-    # screening payload arrives with empty beneficiary fields and every rule
-    # keyed on a payee silently never fires, which reads exactly like a clean
-    # transaction: score 0, ALLOW.
+    # is, where it is -- and a client cannot be trusted to supply them even if
+    # it knew them. Without this the screening payload arrives with empty
+    # beneficiary fields and every rule keyed on a payee silently never fires,
+    # which reads exactly like a clean transaction: score 0, ALLOW.
     if beneficiary:
         context = dict(txn.context or {})
         context.update({
             "beneficiary_fingerprint": beneficiary.get("fingerprint", ""),
             "beneficiary_country": beneficiary.get("country", ""),
             "beneficiary_age_hours": beneficiary.get("age_hours", 0.0),
-            "beneficiary_in_cooling_off": bool(beneficiary.get("in_cooling_off")),
             "beneficiary_type": beneficiary.get("type", ""),
+            # The payer's own masked number, so the recipient's copy of this
+            # transfer can say who it came from.
+            "debit_account_masked": (result.get("debit_account") or {}).get("masked", ""),
         })
         txn.context = context
-        txn.save(update_fields=["limit_reservation_id", "beneficiary_masked", "context"])
-    else:
-        txn.save(update_fields=["limit_reservation_id", "beneficiary_masked"])
+        fields.append("context")
+
+    txn.save(update_fields=fields)
     return result
 
 
@@ -181,7 +194,6 @@ def do_screen(txn: Transaction) -> dict:
         "beneficiary_fingerprint": (txn.context or {}).get("beneficiary_fingerprint", ""),
         "beneficiary_country": (txn.context or {}).get("beneficiary_country", ""),
         "beneficiary_age_hours": (txn.context or {}).get("beneficiary_age_hours", 0.0),
-        "beneficiary_in_cooling_off": (txn.context or {}).get("beneficiary_in_cooling_off", False),
         "device_fingerprint": (txn.context or {}).get("device_fingerprint", ""),
         "ip_country": (txn.context or {}).get("ip_country", ""),
     }
@@ -229,9 +241,21 @@ def _legs_for(txn: Transaction) -> list[dict]:
         ]
 
     if txn.rail == Rail.INTERNAL:
+        # The credit must name the *recipient's account*, resolved by account-svc
+        # during VALIDATE. Using txn.beneficiary_id here -- the id of a payee row
+        # in the sender's address book -- makes ledger-svc lazily create a
+        # customer account nobody owns and post the money into it. Debits still
+        # equal credits, so the invariant sweep stays green and the loss is
+        # silent. Refusing to post is the only safe response to a missing id.
+        if not txn.counterparty_account_id:
+            raise HaltSaga(
+                TxnStatus.REJECTED, "BENEFICIARY_ACCOUNT_UNRESOLVED",
+                detail={"beneficiary_id": str(txn.beneficiary_id)},
+            )
         return [
             {"ledger_account_code": customer, "direction": "DEBIT", **amount},
-            {"ledger_account_code": f"CUST:{txn.beneficiary_id}", "direction": "CREDIT", **amount},
+            {"ledger_account_code": f"CUST:{txn.counterparty_account_id}",
+             "direction": "CREDIT", **amount},
         ]
 
     clearing = (
@@ -263,7 +287,87 @@ def do_capture(txn: Transaction) -> dict:
 
     txn.journal_entry_id = result["journal_entry_id"]
     txn.save(update_fields=["journal_entry_id"])
+
+    # The money is now in the recipient's account. Give them the record of it in
+    # the same breath -- an internal transfer that only the sender can see is
+    # half a transfer.
+    mirror_incoming_transfer(txn)
     return result
+
+
+def mirror_incoming_transfer(txn: Transaction) -> Transaction | None:
+    """Write the recipient's CREDIT leg of an internal transfer.
+
+    Only for INTERNAL: on every other rail the recipient banks somewhere else,
+    and inventing a row for them would be inventing a fact we do not have.
+
+    Idempotent on ``(counterparty_user_id, "recv:<txn id>")`` so a saga replay,
+    a retried capture, or a resumed review cannot pay someone twice on paper.
+    """
+    if txn.rail != Rail.INTERNAL or txn.txn_type != TxnType.TRANSFER:
+        return None
+    if not (txn.counterparty_user_id and txn.counterparty_account_id):
+        logger.error("internal transfer %s captured with no counterparty", txn.reference)
+        return None
+
+    with transaction.atomic():
+        mirror, created = Transaction.objects.get_or_create(
+            user_id=txn.counterparty_user_id,
+            idempotency_key=f"recv:{txn.id}",
+            defaults={
+                # Its own unique reference, but the shared transfer_ref is what
+                # both customers see and quote to support.
+                "reference": f"{txn.reference}-R",
+                "transfer_ref": txn.transfer_ref or txn.reference,
+                "account_id": txn.counterparty_account_id,
+                "txn_type": TxnType.TRANSFER,
+                "rail": Rail.INTERNAL,
+                "direction": "CREDIT",
+                "amount": txn.amount,
+                "currency": txn.currency,
+                "status": TxnStatus.SETTLED,
+                "settled_at": timezone.now(),
+                "journal_entry_id": txn.journal_entry_id,
+                "counterparty_user_id": txn.user_id,
+                "counterparty_account_id": txn.account_id,
+                "counterparty_masked": (txn.context or {}).get("debit_account_masked", ""),
+                "correlation_id": txn.correlation_id,
+                "remarks": txn.remarks,
+                "related_transaction": txn,
+            },
+        )
+        if not created:
+            return mirror
+
+        txn.related_transaction = mirror
+        txn.save(update_fields=["related_transaction"])
+
+        # Addressed to the recipient, so notification-svc tells the right person.
+        publish(
+            EventEnvelope(
+                event_type="payment.received",
+                aggregate_type="transaction",
+                aggregate_id=str(mirror.id),
+                sequence=0,
+                producer="payments",
+                correlation_id=txn.correlation_id or get_correlation_id() or "",
+                payload={
+                    "transaction_id": str(mirror.id),
+                    "reference": mirror.transfer_ref,
+                    "user_id": str(mirror.user_id),
+                    "account_id": str(mirror.account_id),
+                    "amount": {"amount": str(mirror.amount), "currency": mirror.currency},
+                    "direction": "CREDIT",
+                    "status": mirror.status,
+                    "from_masked": mirror.counterparty_masked,
+                    "remarks": mirror.remarks,
+                    "related_transaction_id": str(txn.id),
+                },
+            )
+        )
+
+    logger.info("mirrored %s to recipient %s", txn.reference, mirror.user_id)
+    return mirror
 
 
 def undo_capture(txn: Transaction) -> None:
@@ -273,6 +377,23 @@ def undo_capture(txn: Transaction) -> None:
             journal_entry_id=txn.journal_entry_id, txn_ref=txn.id,
             reason=txn.status_reason or "saga compensated",
         )
+    _reverse_mirror(txn)
+
+
+def _reverse_mirror(txn: Transaction) -> None:
+    """Keep the recipient's copy honest when the sender's leg is unwound.
+
+    The reversing journal entry takes the money back out of their account, so
+    leaving their row reading SETTLED would show a credit they no longer have.
+    """
+    mirror = Transaction.objects.filter(related_transaction=txn).first()
+    if mirror is None or mirror.status == TxnStatus.REVERSED:
+        return
+    with transaction.atomic():
+        set_status(mirror, TxnStatus.REVERSED,
+                   txn.status_reason or "sending leg reversed")
+        _emit(mirror, "payment.returned",
+              {"return_reason": mirror.status_reason, "funds_returned": False})
 
 
 def do_dispatch(txn: Transaction) -> dict:

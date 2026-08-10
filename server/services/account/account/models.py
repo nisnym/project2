@@ -83,10 +83,28 @@ class Beneficiary(models.Model):
     country = models.CharField(max_length=2, default="IN")
     currency = models.CharField(max_length=3, default="INR")
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
-    # An anti-fraud control: large transfers to a brand-new payee are restricted
-    # for a period, which is when account-takeover fraud usually strikes.
-    cooling_off_until = models.DateTimeField(null=True, blank=True)
+    # No cooling-off window: a payee is usable the moment it is added. The
+    # novelty of a payee is still a fraud *signal* -- fraud-svc derives
+    # `beneficiary_is_new` from its own record of the fingerprint, and rules
+    # R005 and R014 score on it -- but it is no longer a blanket restriction on
+    # the customer. Screening decides, not the calendar.
     fingerprint = models.CharField(max_length=80, db_index=True)
+
+    # For an INTERNAL payee, the account inside this bank that the money will
+    # actually land in. Resolved once when the payee is added, not per transfer:
+    # a payee whose account number does not exist here is a payee that can never
+    # be paid, and the customer should learn that while typing it -- not from a
+    # transfer that silently posts into nowhere.
+    #
+    # This field is what makes an internal transfer credit a real person. Before
+    # it existed the ledger was told to credit `CUST:<beneficiary_id>`, which is
+    # the id of *this row*, not of any account -- so the money went into an
+    # auto-created ledger account nobody owned, and the entry still balanced,
+    # so no invariant check ever noticed.
+    internal_account_id = models.UUIDField(null=True, blank=True, db_index=True)
+    internal_user_id = models.UUIDField(null=True, blank=True)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

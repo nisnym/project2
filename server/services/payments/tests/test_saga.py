@@ -353,7 +353,7 @@ class TestScreeningPayload:
     """The fraud engine only knows what the saga tells it.
 
     These exist because of a real bug: the saga read the payee's fingerprint,
-    age and cooling-off status out of `txn.context` -- where only a caller could
+    age out of `txn.context` -- where only a caller could
     have put them -- while account-svc was already returning them from VALIDATE
     and the saga was discarding them. Every payment made through the public API
     therefore reached screening with empty payee fields, so every rule keyed on
@@ -373,15 +373,12 @@ class TestScreeningPayload:
         peers.beneficiary_fingerprint = "sha256:abc123"
         peers.beneficiary_country = "DE"
         peers.beneficiary_age_hours = 0.5
-        peers.beneficiary_in_cooling_off = True
-
         services.submit(transfer())
         payload = self._screen_payload(peers)
 
         assert payload["beneficiary_fingerprint"] == "sha256:abc123"
         assert payload["beneficiary_country"] == "DE"
         assert payload["beneficiary_age_hours"] == 0.5
-        assert payload["beneficiary_in_cooling_off"] is True
 
     def test_signals_come_from_account_svc_not_from_the_caller(self, peers, transfer):
         """A client must not be able to talk its way past a rule.
@@ -389,13 +386,11 @@ class TestScreeningPayload:
         The caller-supplied context is overwritten by what account-svc reports,
         so claiming a brand-new payee is a year old changes nothing.
         """
-        peers.beneficiary_in_cooling_off = True
         peers.beneficiary_age_hours = 0.25
 
         txn = transfer()
         txn.context = {
-            "beneficiary_in_cooling_off": False,     # a lie
-            "beneficiary_age_hours": 9000.0,         # also a lie
+            "beneficiary_age_hours": 9000.0,         # a lie
             "device_fingerprint": "web:real-device",
         }
         txn.save(update_fields=["context"])
@@ -403,7 +398,6 @@ class TestScreeningPayload:
         services.submit(txn)
         payload = self._screen_payload(peers)
 
-        assert payload["beneficiary_in_cooling_off"] is True
         assert payload["beneficiary_age_hours"] == 0.25
         # Genuinely client-side signals still survive.
         assert payload["device_fingerprint"] == "web:real-device"
@@ -433,3 +427,110 @@ class TestScreeningPayload:
 
         assert payload["txn_type"] == "FUNDING"
         assert payload["beneficiary_fingerprint"] == ""
+
+
+class TestInternalTransferReachesTheRecipient:
+    """An internal transfer has two owners, and both must end up with the truth.
+
+    These are regression tests for a silent loss: the credit leg used to name
+    `CUST:<beneficiary_id>` -- the id of a payee row in the *sender's* address
+    book -- so ledger-svc lazily created a customer account nobody owned and
+    posted the money into it. Debits still equalled credits, so the nightly
+    invariant sweep stayed green and nothing ever flagged it.
+    """
+
+    @staticmethod
+    def _legs(peers):
+        for name, kwargs in peers.calls:
+            if name == "capture_hold":
+                return kwargs["legs"]
+        raise AssertionError("capture_hold was never called")
+
+    def test_credit_leg_names_the_recipients_account(self, peers, transfer):
+        txn = services.submit(transfer(rail="INTERNAL"))
+        credit = next(leg for leg in self._legs(peers) if leg["direction"] == "CREDIT")
+
+        assert credit["ledger_account_code"] == f"CUST:{peers.credit_account_id}"
+        # The bug, stated as an assertion: never the payee record's id.
+        assert credit["ledger_account_code"] != f"CUST:{txn.beneficiary_id}"
+
+    def test_debit_leg_names_the_senders_account(self, peers, transfer):
+        txn = services.submit(transfer(rail="INTERNAL"))
+        debit = next(leg for leg in self._legs(peers) if leg["direction"] == "DEBIT")
+
+        assert debit["ledger_account_code"] == f"CUST:{txn.account_id}"
+
+    def test_unresolved_payee_is_rejected_rather_than_posted(self, peers, transfer):
+        """If account-svc cannot say which account receives the money, refusing
+        is the only safe answer -- posting it somewhere would balance, and lose
+        it."""
+        peers.resolves_internal_payee = False
+
+        txn = services.submit(transfer(rail="INTERNAL"))
+
+        assert txn.status == TxnStatus.REJECTED
+        assert txn.status_reason == "BENEFICIARY_ACCOUNT_UNRESOLVED"
+        assert "capture_hold" not in peers.names()
+        # The money the customer had reserved is given back.
+        assert "release_hold" in peers.names()
+        assert "release_limit" in peers.names()
+
+    def test_recipient_gets_their_own_credit_row(self, peers, transfer):
+        txn = services.submit(transfer(rail="INTERNAL"))
+
+        mirror = Transaction.objects.get(user_id=peers.credit_user_id)
+        assert mirror.direction == "CREDIT"
+        assert mirror.status == TxnStatus.SETTLED
+        assert mirror.amount == txn.amount
+        assert str(mirror.account_id) == peers.credit_account_id
+        # Both sides quote the same reference and point at each other.
+        assert mirror.transfer_ref == txn.reference
+        assert mirror.related_transaction_id == txn.id
+        assert str(mirror.journal_entry_id) == str(txn.journal_entry_id)
+
+    def test_each_side_sees_the_other_as_the_counterparty(self, peers, transfer):
+        txn = services.submit(transfer(rail="INTERNAL"))
+        mirror = Transaction.objects.get(user_id=peers.credit_user_id)
+
+        assert txn.counterparty_masked == peers.credit_account_masked
+        assert str(txn.counterparty_user_id) == peers.credit_user_id
+        assert mirror.counterparty_masked == peers.debit_account_masked
+        assert mirror.counterparty_user_id == txn.user_id
+
+    def test_history_is_scoped_to_each_owner(self, peers, transfer):
+        """The two rows are separate records with separate owners -- which is
+        what makes `filter(user_id=...)` in the history endpoint safe."""
+        txn = services.submit(transfer(rail="INTERNAL"))
+
+        assert Transaction.objects.filter(user_id=txn.user_id).count() == 1
+        assert Transaction.objects.filter(user_id=peers.credit_user_id).count() == 1
+
+    def test_mirroring_is_idempotent(self, peers, transfer):
+        """A replayed capture must not pay someone twice on paper."""
+        from payments.saga import mirror_incoming_transfer
+
+        txn = services.submit(transfer(rail="INTERNAL"))
+        mirror_incoming_transfer(txn)
+        mirror_incoming_transfer(txn)
+
+        assert Transaction.objects.filter(user_id=peers.credit_user_id).count() == 1
+
+    def test_reversing_the_sender_reverses_the_recipients_row(self, peers, transfer):
+        """The reversing journal entry takes the money back out of their
+        account, so leaving their copy reading SETTLED would show a credit they
+        no longer have."""
+        txn = services.submit(transfer(rail="INTERNAL"))
+
+        services.return_from_rail(txn.id, reason="RECALLED")
+
+        mirror = Transaction.objects.get(user_id=peers.credit_user_id)
+        assert mirror.status == TxnStatus.REVERSED
+
+    def test_domestic_transfer_has_no_recipient_row(self, peers, transfer):
+        """The payee banks elsewhere. Inventing a row for them would be
+        inventing a fact we do not have."""
+        txn = services.submit(transfer(rail="DOMESTIC"))
+
+        assert Transaction.objects.exclude(user_id=txn.user_id).count() == 0
+        credit = next(leg for leg in self._legs(peers) if leg["direction"] == "CREDIT")
+        assert credit["ledger_account_code"] == "INTERNAL:CLEARING_DOMESTIC"

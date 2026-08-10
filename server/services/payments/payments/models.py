@@ -87,6 +87,27 @@ class Transaction(models.Model):
     beneficiary_masked = models.CharField(max_length=40, blank=True)
     funding_source_id = models.UUIDField(null=True, blank=True)
 
+    # ---- the other side of the transfer --------------------------------
+    #
+    # A transfer inside the bank has two owners, and each of them is entitled to
+    # a record of it in their own history. The sender's row is the DEBIT leg;
+    # the recipient gets a mirrored CREDIT row created at capture. Both carry
+    # the same ``transfer_ref`` and point at each other, so "I sent it" and
+    # "they received it" are provably the same event rather than two stories.
+    #
+    # ``beneficiary_id`` cannot serve this purpose: it identifies a payee record
+    # in the *sender's* address book, which the recipient has never heard of.
+    counterparty_user_id = models.UUIDField(null=True, blank=True, db_index=True)
+    counterparty_account_id = models.UUIDField(null=True, blank=True)
+    counterparty_masked = models.CharField(max_length=40, blank=True)
+    related_transaction = models.OneToOneField(
+        "self", null=True, blank=True, on_delete=models.SET_NULL, related_name="mirror_of"
+    )
+    # The shared business reference shown on both sides. The sender's own
+    # ``reference`` is the value; the mirror borrows it while keeping a distinct
+    # ``reference`` of its own to satisfy the unique constraint.
+    transfer_ref = models.CharField(max_length=40, blank=True, db_index=True)
+
     status = models.CharField(
         max_length=24, choices=TxnStatus.choices, default=TxnStatus.INITIATED, db_index=True
     )

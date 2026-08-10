@@ -44,7 +44,16 @@ class FakePeers:
         self.beneficiary_fingerprint = "sha256:demo-payee-fingerprint"
         self.beneficiary_country = "IN"
         self.beneficiary_age_hours = 720.0
-        self.beneficiary_in_cooling_off = False
+        # For an INTERNAL payee, account-svc resolves the payee record to the
+        # recipient's real account and returns it. The saga refuses to post
+        # without it, so the fake has to supply it exactly as the real service
+        # does -- an earlier fixture omitted it and hid the fact that internal
+        # transfers were crediting an account nobody owned.
+        self.credit_account_id = str(uuid.uuid4())
+        self.credit_user_id = str(uuid.uuid4())
+        self.credit_account_masked = "****7538"
+        self.debit_account_masked = "****5210"
+        self.resolves_internal_payee = True
 
     def _record(self, name, **kwargs):
         self.calls.append((name, kwargs))
@@ -60,17 +69,30 @@ class FakePeers:
         self._record("validate_transfer", **kwargs)
         if not self.validate_ok:
             return {"ok": False, "reason": self.validate_reason}
+
+        internal = kwargs.get("rail") == "INTERNAL"
+        beneficiary = {
+            "id": str(kwargs.get("beneficiary_id") or uuid.uuid4()),
+            "masked": "****3456",
+            "type": "INTERNAL" if internal else "DOMESTIC",
+            "fingerprint": self.beneficiary_fingerprint,
+            "country": self.beneficiary_country,
+            "age_hours": self.beneficiary_age_hours,
+        }
+        if internal and self.resolves_internal_payee:
+            beneficiary.update({
+                "credit_account_id": self.credit_account_id,
+                "credit_user_id": self.credit_user_id,
+                "credit_account_masked": self.credit_account_masked,
+            })
         return {
             "ok": True,
             "reservation_id": f"res-{uuid.uuid4()}",
-            "beneficiary": {
-                "id": str(kwargs.get("beneficiary_id") or uuid.uuid4()),
-                "masked": "****3456",
-                "type": "DOMESTIC",
-                "fingerprint": self.beneficiary_fingerprint,
-                "country": self.beneficiary_country,
-                "age_hours": self.beneficiary_age_hours,
-                "in_cooling_off": self.beneficiary_in_cooling_off,
+            "beneficiary": beneficiary,
+            "debit_account": {
+                "id": str(kwargs.get("account_id") or uuid.uuid4()),
+                "masked": self.debit_account_masked,
+                "currency": kwargs.get("currency", "INR"),
             },
         }
 

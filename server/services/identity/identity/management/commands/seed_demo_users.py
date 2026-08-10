@@ -19,9 +19,15 @@ PASSWORD = "demo-password-2026"
 
 DEMO_USERS = [
     ("asha@indbank.test", "Asha Menon", Role.CUSTOMER),
+    ("ravi@indbank.test", "Ravi Kulkarni", Role.CUSTOMER),
     ("analyst@indbank.test", "Priya Raghavan", Role.FRAUD_ANALYST),
     ("ops@indbank.test", "Kabir Shah", Role.OPS),
     ("admin@indbank.test", "Meera Iyer", Role.ADMIN),
+    # A second administrator is not a nicety. Every privileged change is staged
+    # for a *different* admin to approve, so with one administrator the console
+    # can raise requests and never apply any of them -- and the last-admin guard
+    # would refuse to promote anyone to help. Two is the minimum workable estate.
+    ("admin2@indbank.test", "Arjun Desai", Role.ADMIN),
 ]
 
 

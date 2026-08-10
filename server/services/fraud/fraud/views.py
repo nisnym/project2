@@ -47,7 +47,6 @@ def screen(request):
             beneficiary_fingerprint=data.get("beneficiary_fingerprint", ""),
             beneficiary_country=data.get("beneficiary_country", ""),
             beneficiary_age_hours=float(data.get("beneficiary_age_hours") or 0.0),
-            beneficiary_in_cooling_off=bool(data.get("beneficiary_in_cooling_off")),
             device_fingerprint=data.get("device_fingerprint", ""),
             ip_country=data.get("ip_country", ""),
         )

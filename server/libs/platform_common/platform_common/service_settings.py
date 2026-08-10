@@ -51,50 +51,59 @@ def service_registry() -> dict[str, str]:
 # estate; each service reads the same table and publish() filters it to the
 # subscribers that are not itself.
 #
-# "*" subscribes a service to every event -- audit only.
+# "*" subscribes a service to every event -- audit only. Because subscribers_for()
+# always appends the wildcard, an event needs no entry here to reach the audit
+# log; an entry means some service *acts* on it.
+#
+# **Every entry must name a service that registers a handler for that event.**
+# A route to a service with no handler is not harmless: it writes an outbox row,
+# runs an HTTP relay, writes an inbox row on the peer and enqueues a dispatch
+# task there -- which then finds nothing to run. Full cost, no effect, no error.
+# scripts/verify_wiring.py boots every service, reads its live handler registry
+# and fails on any route that does not land, so this table cannot quietly drift
+# away from the code again.
 EVENT_SUBSCRIPTIONS: dict[str, list[str]] = {
     "*": ["audit"],
     # identity
-    "user.registered": ["notification", "onboarding"],
-    "user.logged_in": ["fraud"],
-    "user.login_failed": ["notification", "ops", "fraud"],
-    "device.seen": ["fraud"],
-    "security.refresh_reuse_detected": ["notification", "ops", "fraud"],
+    "user.login_failed": ["notification"],
+    "security.refresh_reuse_detected": ["notification", "ops"],
+    # identity administration. Every one of these is a privileged change to a
+    # person's access, so ops sees them live and audit chains them for the
+    # regulator. The ones the affected user is entitled to hear about also go
+    # to notification -- "someone reset your password" is exactly the signal
+    # that lets a customer report a takeover before it is used.
+    "user.status_changed": ["notification"],
+    "user.unlocked": ["notification"],
+    "user.sessions_revoked": ["notification"],
+    "user.password_reset": ["notification"],
+    "user.password_changed": ["notification"],
     # onboarding / kyc
-    "onboarding.status_changed": ["notification"],
-    "onboarding.completed": ["notification", "account"],
-    "onboarding.rejected": ["notification", "ops"],
-    "onboarding.review_required": ["ops"],
-    "kyc.completed": ["notification", "onboarding", "fraud"],
-    "kyc.screening_hit": ["ops", "onboarding", "fraud"],
+    "kyc.completed": ["onboarding"],
     # account
-    "account.opened": ["notification", "fraud", "onboarding", "identity"],
-    "account.frozen": ["notification", "ops", "payments", "fraud"],
-    "beneficiary.added": ["notification", "fraud"],
-    "beneficiary.blocked": ["notification", "fraud"],
-    "limit.policy_updated": ["ops", "payments"],
+    "account.opened": ["notification"],
+    "account.frozen": ["payments"],
+    "beneficiary.added": ["notification"],
+    "beneficiary.blocked": ["notification"],
     # payments
-    "payment.initiated": ["ops"],
-    "payment.approved": ["notification", "ops", "account"],
-    "payment.blocked": ["notification", "ops", "account"],
-    "payment.review_required": ["notification", "ops"],
-    "payment.dispatched": ["ops"],
-    "payment.settled": ["notification", "ops", "account", "fraud"],
-    "payment.returned": ["notification", "ops", "account", "fraud"],
-    "payment.failed": ["notification", "ops", "account"],
-    "payment.cancelled": ["notification", "ops", "account"],
-    "schedule.created": ["notification"],
+    "payment.approved": ["notification"],
+    "payment.blocked": ["notification", "ops"],
+    "payment.review_required": ["notification"],
+    "payment.settled": ["notification"],
+    # The recipient's side of an internal transfer. Addressed to *them*, not to
+    # the payer, so notification-svc tells the right person that money arrived.
+    "payment.received": ["notification"],
+    "payment.returned": ["notification", "ops"],
+    "payment.failed": ["notification", "ops"],
+    "payment.cancelled": ["notification"],
     "schedule.failed": ["notification", "ops"],
-    # ledger
-    "ledger.posted": ["payments", "account"],
-    "ledger.reversed": ["notification", "ops", "payments", "account"],
+    # ledger. account-svc keeps its cached balance from this, which is what
+    # lets a customer see their last known balance when ledger-svc is down
+    # instead of a flat zero.
+    "ledger.posted": ["account"],
     "ledger.invariant_breached": ["ops"],
     # fraud
-    "fraud.decision_made": ["ops"],
-    "fraud.case_opened": ["notification", "ops"],
-    "fraud.case_approved": ["notification", "ops", "payments"],
-    "fraud.case_rejected": ["notification", "ops", "payments"],
-    "fraud.rule_updated": ["ops"],
+    "fraud.case_approved": ["payments"],
+    "fraud.case_rejected": ["payments"],
     # platform
     "outbox.dead": ["ops"],
     "audit.chain_broken": ["ops"],

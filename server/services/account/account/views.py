@@ -97,9 +97,6 @@ def _account_json(account: Account, *, balance: dict | None = None) -> dict:
 
 
 def _beneficiary_json(beneficiary: Beneficiary) -> dict:
-    from django.utils import timezone
-
-    cooling_off = beneficiary.cooling_off_until
     return {
         "id": str(beneficiary.id),
         "nickname": beneficiary.nickname,
@@ -112,8 +109,9 @@ def _beneficiary_json(beneficiary: Beneficiary) -> dict:
         "currency": beneficiary.currency,
         "status": beneficiary.status,
         "fingerprint": beneficiary.fingerprint,
-        "cooling_off_until": cooling_off.isoformat() if cooling_off else None,
-        "in_cooling_off": bool(cooling_off and cooling_off > timezone.now()),
+        # Whether this payee points at a real account inside the bank. Only ever
+        # true for INTERNAL; the receiving customer's identity is never echoed.
+        "internal_verified": bool(beneficiary.internal_account_id),
         "created_at": beneficiary.created_at.isoformat(),
     }
 
@@ -244,8 +242,7 @@ def beneficiary_detail(request, beneficiary_id):
     if request.method == "DELETE":
         # Blocked, not deleted: a removed payee still has to be explainable
         # months later when a transfer to it is investigated.
-        beneficiary.status = Beneficiary.Status.BLOCKED
-        beneficiary.save(update_fields=["status"])
+        services.block_beneficiary(beneficiary)
         return Response(_beneficiary_json(beneficiary))
 
     return Response(_beneficiary_json(beneficiary))

@@ -37,17 +37,34 @@ system so the analyst and ops consoles have something to show.
 
 ### Demo logins
 
-Password for all four: `demo-password-2026`
+Password for all six: `demo-password-2026`
 
 | Email | Role | What they see |
 |---|---|---|
 | `asha@indbank.test` | Customer | Accounts, send money, add money, payees, schedules |
+| `ravi@indbank.test` | Customer | The other side of an internal transfer |
 | `analyst@indbank.test` | Fraud analyst | Case queue, case detail, rule performance |
 | `ops@indbank.test` | Operations | Service health, failures, reports |
-| `admin@indbank.test` | Administrator | Fraud rules, thresholds, limits, audit trail |
+| `admin@indbank.test` | Administrator | Users, approvals, fraud rules, thresholds, limits, audit |
+| `admin2@indbank.test` | Administrator | The second pair of eyes |
 
 Staff accounts are **seeded, not registerable** — the public register endpoint always
 creates a customer, so nobody can sign themselves up as an admin.
+
+**Two customers and two administrators are both deliberate.** An internal transfer
+has a payer and a payee, and each gets their own record of it — one customer cannot
+demonstrate that. And every privileged administrative change is staged for a
+*different* administrator to approve, so with one admin the console could raise
+requests and never apply any of them.
+
+### Seeing both sides of a transfer
+
+Sign in as `asha@indbank.test`, add `ravi@indbank.test`'s account number as a payee
+of type **Within IND Bank** (take it from Ravi's Accounts page), and send. Asha's
+Activity shows `Sent to ****…` as a debit; Ravi's shows `Received from ****…` as a
+credit, under the same reference, and his balance moves. Payees are usable the
+moment they are added — a new payee is scored by fraud screening rather than made
+to wait.
 
 ---
 

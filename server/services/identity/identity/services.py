@@ -235,9 +235,52 @@ def login(*, email: str, password: str, device_fingerprint: str = "",
         "refresh_token": str(refresh.jti),
         "token_type": "Bearer",
         "expires_in": int(ACCESS_TTL.total_seconds()),
+        "must_change_password": user.must_change_password,
         "user": {"id": str(user.id), "email": user.email, "role": user.role,
-                 "full_name": user.full_name},
+                 "full_name": user.full_name,
+                 "must_change_password": user.must_change_password},
     }
+
+
+def change_password(user_id, *, current_password: str, new_password: str) -> dict:
+    """Change your own password.
+
+    Always requires the current one, even when the account is flagged for a
+    forced reset: the temporary credential was handed over out of band, and
+    proving you hold it is the only thing that distinguishes the intended
+    recipient from whoever else saw it in transit.
+
+    Every other session is revoked. If the reason for the change was that
+    someone else knew the old password, leaving their session alive would make
+    the change cosmetic.
+    """
+    with transaction.atomic():
+        user = User.objects.select_for_update().filter(pk=user_id).first()
+        if user is None:
+            raise NotFound("User not found.")
+        if not user.check_password(current_password):
+            raise AuthenticationFailed("The current password is incorrect.")
+
+        user.set_password(new_password)
+        user.must_change_password = False
+        user.save(update_fields=["password_hash", "must_change_password"])
+
+        revoked = RefreshToken.objects.filter(
+            user=user, revoked_at__isnull=True
+        ).update(revoked_at=timezone.now())
+
+        publish(
+            EventEnvelope(
+                event_type="user.password_changed",
+                aggregate_type="user", aggregate_id=str(user.id), sequence=0,
+                producer="identity", correlation_id=get_correlation_id() or "",
+                actor={"type": user.role.lower(), "id": str(user.id)},
+                payload={"user_id": str(user.id), "email": user.email,
+                         "sessions_revoked": revoked, "self_service": True},
+            )
+        )
+
+    return {"changed": True, "sessions_revoked": revoked}
 
 
 def refresh_tokens(presented_jti: str) -> dict:

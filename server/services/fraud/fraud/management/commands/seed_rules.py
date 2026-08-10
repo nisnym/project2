@@ -129,16 +129,18 @@ STARTER_RULES = [
         ]},
         45, False, "R014", RuleCategory.BENEFICIARY,
     ),
-    (
-        "R015_COOLING_OFF",
-        "Beneficiary still within its cooling-off period",
-        {"all": [
-            {"fact": "beneficiary_in_cooling_off", "op": "eq", "value": True},
-            {"fact": "amount", "op": "gt", "value": "10000"},
-        ]},
-        50, False, "R015", RuleCategory.BENEFICIARY,
-    ),
 ]
+
+# Rules that no longer have a fact to stand on. Payees are usable the moment
+# they are added, so `beneficiary_in_cooling_off` is gone from the feature
+# vector -- and a rule referencing a fact that no longer exists would throw on
+# every screening, get caught and skipped, and quietly log an exception per
+# transfer for the rest of time. Retiring it is part of removing the fact.
+#
+# New-payee risk is still covered: R005 and R014 score on `beneficiary_is_new`,
+# which fraud-svc derives from its own record of the fingerprint rather than
+# from any window account-svc keeps.
+RETIRED_RULES = ["R015_COOLING_OFF"]
 
 HIGH_RISK_COUNTRIES = ["KP", "IR", "SY", "AF", "YE", "SS", "MM"]
 
@@ -179,6 +181,14 @@ class Command(BaseCommand):
             RuleStat.objects.get_or_create(rule=rule)
             created += was_created
             updated += not was_created
+
+        retired = Rule.objects.filter(code__in=RETIRED_RULES).exclude(
+            mode=RuleMode.DISABLED
+        ).update(mode=RuleMode.DISABLED, updated_by="seed")
+        if retired:
+            self.stdout.write(
+                self.style.WARNING(f"{retired} retired rule(s) disabled.")
+            )
 
         if not Threshold.objects.filter(is_active=True).exists():
             Threshold.objects.create(

@@ -15,7 +15,7 @@ import {
   useToast,
 } from '../../components/kit'
 import { api } from '../../lib/api'
-import { formatDateTime, relativeTime } from '../../lib/format'
+import { formatDateTime } from '../../lib/format'
 
 const TYPES = [
   { value: 'INTERNAL', label: 'Within IND Bank' },
@@ -62,6 +62,7 @@ export default function Payees() {
 
   const set = (key) => (event) => setForm({ ...form, [key]: event.target.value })
   const international = form.beneficiary_type === 'INTERNATIONAL'
+  const internal = form.beneficiary_type === 'INTERNAL'
   const rows = payees.data?.results ?? []
 
   return (
@@ -142,6 +143,13 @@ export default function Payees() {
                     )}
                   </Field>
                 </div>
+              ) : internal ? (
+                <Banner tone="info" title="We check this one against our books">
+                  An IND Bank payee is verified as you add them: if the number
+                  does not match an open account here, we say so now rather than
+                  letting a transfer fail later. Transfers to them are instant
+                  and free, and land in their account straight away.
+                </Banner>
               ) : (
                 <Field label="IFSC" hint="Eleven characters, e.g. HDFC0001234">
                   {(id) => (
@@ -149,7 +157,7 @@ export default function Payees() {
                       id={id}
                       mono
                       value={form.bank_code}
-                      required={form.beneficiary_type === 'DOMESTIC'}
+                      required
                       placeholder="HDFC0001234"
                       onChange={set('bank_code')}
                     />
@@ -159,10 +167,11 @@ export default function Payees() {
 
               <ErrorBanner error={add.error} title="Could not add this payee" />
 
-              <Banner tone="info" title="Cooling-off period">
-                New payees are restricted for 24 hours. Large transfers to them may
-                be held for review — this is what stops an account takeover from
-                becoming an emptied account.
+              <Banner tone="info" title="Ready to pay straight away">
+                There is no waiting period. A brand-new payee is still one of the
+                strongest fraud signals there is, so every transfer to them is
+                screened on its own merits — rather than everyone being made to
+                wait a day on the chance that one of them is a mule account.
               </Banner>
 
               <Button type="submit" variant="primary" busy={add.isPending}>
@@ -204,18 +213,22 @@ export default function Payees() {
                         {TYPES.find((t) => t.value === payee.beneficiary_type)?.label}
                         {payee.country !== 'IN' && ` · ${payee.country}`}
                       </td>
-                      <td className="mono tiny">{payee.bank_code || payee.swift_bic || '—'}</td>
+                      <td className="mono tiny">
+                        {payee.beneficiary_type === 'INTERNAL' ? (
+                          payee.internal_verified ? (
+                            <Stamp tone="allow">Verified</Stamp>
+                          ) : (
+                            <Stamp tone="review">Unverified</Stamp>
+                          )
+                        ) : (
+                          payee.bank_code || payee.swift_bic || '—'
+                        )}
+                      </td>
                       <td className="tiny muted">{formatDateTime(payee.created_at)}</td>
                       <td>
-                        {payee.in_cooling_off ? (
-                          <Stamp tone="review">
-                            Cooling off · {relativeTime(payee.cooling_off_until)}
-                          </Stamp>
-                        ) : (
-                          <Stamp tone={payee.status === 'ACTIVE' ? 'allow' : 'neutral'}>
-                            {payee.status}
-                          </Stamp>
-                        )}
+                        <Stamp tone={payee.status === 'ACTIVE' ? 'allow' : 'neutral'}>
+                          {payee.status}
+                        </Stamp>
                       </td>
                       <td style={{ textAlign: 'right' }}>
                         {payee.status === 'ACTIVE' && (

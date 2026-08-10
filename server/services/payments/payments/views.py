@@ -6,6 +6,7 @@ services.py.
 
 from __future__ import annotations
 
+from django.db.models import Q
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -18,7 +19,14 @@ from platform_common.auth.authentication import JWTAuthentication
 from platform_common.errors import NotFound
 
 from . import services
-from .models import FundingSource, SagaStep, Transaction, TransferSchedule, TxnStatus
+from .models import (
+    FundingSource,
+    SagaStep,
+    Transaction,
+    TransferSchedule,
+    TxnStatus,
+    TxnType,
+)
 from .serializers import (
     AddFundingSourceSerializer,
     CreateFundingSerializer,
@@ -31,13 +39,37 @@ from .serializers import (
 # ---------------------------------------------------------------------------
 
 
+def _counterparty(txn: Transaction) -> dict:
+    """Who is on the other side, from the reader's point of view.
+
+    The sender and the recipient are looking at the same movement of money and
+    need opposite labels for it, so the direction decides the wording rather
+    than the client having to work it out from three nullable fields.
+    """
+    if txn.direction == "CREDIT" and txn.txn_type == TxnType.TRANSFER:
+        return {"label": "Received from",
+                "masked": txn.counterparty_masked or "another account"}
+    if txn.txn_type == TxnType.FUNDING:
+        return {"label": "Added from", "masked": txn.beneficiary_masked or "funding source"}
+    return {"label": "Sent to",
+            "masked": txn.beneficiary_masked or txn.counterparty_masked or "—"}
+
+
 def _txn_json(txn: Transaction) -> dict:
     return {
         "id": str(txn.id),
         "reference": txn.reference,
+        # What both sides of an internal transfer quote. Equal to `reference`
+        # for the sender; the recipient's mirrored row shares it.
+        "transfer_ref": txn.transfer_ref or txn.reference,
         "txn_type": txn.txn_type,
         "rail": txn.rail,
         "direction": txn.direction,
+        "counterparty": _counterparty(txn),
+        "counterparty_masked": txn.counterparty_masked,
+        "related_transaction_id": (
+            str(txn.related_transaction_id) if txn.related_transaction_id else None
+        ),
         "amount": str(txn.amount),
         "currency": txn.currency,
         "status": txn.status,
@@ -201,8 +233,15 @@ def list_transactions(request):
         query = query.filter(status__in=status_filter.split(","))
     if txn_type := request.query_params.get("txn_type"):
         query = query.filter(txn_type=txn_type)
+    if direction := request.query_params.get("direction"):
+        query = query.filter(direction=direction.upper())
     if search := request.query_params.get("q"):
-        query = query.filter(reference__icontains=search)
+        # Both sides of an internal transfer quote the shared transfer_ref, so
+        # searching for it has to find the recipient's row as well as the
+        # payer's -- otherwise the reference on their statement finds nothing.
+        query = query.filter(
+            Q(reference__icontains=search) | Q(transfer_ref__icontains=search)
+        )
 
     # Keyset pagination on created_at: with rows arriving constantly, an OFFSET
     # page boundary shifts underneath the reader and duplicates or skips rows.

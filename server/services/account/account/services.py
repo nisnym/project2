@@ -109,10 +109,53 @@ def ensure_tier_limits(tier: str, currency: str = "INR") -> LimitPolicy:
     return policy
 
 
+def resolve_internal_account(account_number: str, *, owner_user_id) -> Account:
+    """Find the in-bank account behind a payee's account number.
+
+    Failing here is the point. An INTERNAL payee whose number matches no open
+    account cannot be paid, and saying so now turns a transfer that would
+    otherwise post into a phantom ledger account into a form error.
+
+    The error deliberately does not distinguish "no such account" from "closed"
+    or "frozen": either answer, repeated over a number range, is an account
+    enumeration oracle.
+    """
+    account = Account.objects.filter(account_number=account_number).first()
+    if account is None or account.status != Account.Status.ACTIVE:
+        raise ValidationFailed(
+            "No open IND Bank account matches that account number.",
+            code="INTERNAL_PAYEE_UNRESOLVED",
+        )
+    if str(account.user_id) == str(owner_user_id):
+        # Paying yourself is a transfer between your own accounts, which is a
+        # different flow with different limits -- not a payee.
+        raise ValidationFailed(
+            "That is your own account. Use a transfer between your accounts instead.",
+            code="SELF_PAYEE",
+        )
+    return account
+
+
 def add_beneficiary(*, user_id, nickname, beneficiary_type, account_number,
-                    bank_code="", swift_bic="", country="IN", currency="INR",
-                    cooling_off_hours: int = 24) -> Beneficiary:
-    from datetime import timedelta
+                    bank_code="", swift_bic="", country="IN",
+                    currency="INR") -> Beneficiary:
+    """Add a payee, immediately usable.
+
+    There is no cooling-off window. A brand-new payee is still one of the
+    strongest fraud signals there is, but it is applied by screening every
+    transfer rather than by refusing to route them for a day -- so a legitimate
+    customer paying a new landlord is not made to wait, and an attacker paying a
+    mule account is scored on exactly the same evidence.
+    """
+    internal_account = None
+    if beneficiary_type == Beneficiary.Type.INTERNAL:
+        internal_account = resolve_internal_account(account_number, owner_user_id=user_id)
+        if internal_account.currency != currency:
+            raise ValidationFailed(
+                f"That account is held in {internal_account.currency}.",
+                detail={"account_currency": internal_account.currency,
+                        "requested": currency},
+            )
 
     fingerprint = Beneficiary.make_fingerprint(beneficiary_type, account_number, bank_code)
     with transaction.atomic():
@@ -123,7 +166,9 @@ def add_beneficiary(*, user_id, nickname, beneficiary_type, account_number,
                 "account_number": account_number, "bank_code": bank_code,
                 "swift_bic": swift_bic, "country": country, "currency": currency,
                 "status": Beneficiary.Status.ACTIVE,
-                "cooling_off_until": timezone.now() + timedelta(hours=cooling_off_hours),
+                "internal_account_id": internal_account.id if internal_account else None,
+                "internal_user_id": internal_account.user_id if internal_account else None,
+                "resolved_at": timezone.now() if internal_account else None,
             },
         )
         if created:
@@ -142,10 +187,47 @@ def add_beneficiary(*, user_id, nickname, beneficiary_type, account_number,
                         "fingerprint": fingerprint,
                         "country": country,
                         "currency": currency,
-                        "cooling_off_until": beneficiary.cooling_off_until.isoformat(),
+                        # fraud-svc records the fingerprint on this event; that
+                        # record is what later makes the payee "not new".
+                        "internal": bool(internal_account),
                     },
                 )
             )
+    return beneficiary
+
+
+def block_beneficiary(beneficiary: Beneficiary) -> Beneficiary:
+    """Stop a payee being paid, and say so out loud.
+
+    The event matters as much as the status change: blocking a payee is what a
+    customer does the moment they realise one was added without their consent,
+    and fraud-svc and notification-svc both need to hear about it. Emitting
+    nothing -- as this path used to -- makes the single clearest signal of an
+    account takeover invisible to every service built to spot one.
+    """
+    if beneficiary.status == Beneficiary.Status.BLOCKED:
+        return beneficiary
+
+    with transaction.atomic():
+        beneficiary.status = Beneficiary.Status.BLOCKED
+        beneficiary.save(update_fields=["status"])
+        publish(
+            EventEnvelope(
+                event_type="beneficiary.blocked",
+                aggregate_type="beneficiary",
+                aggregate_id=str(beneficiary.id),
+                sequence=0,
+                producer="account",
+                correlation_id=get_correlation_id() or "",
+                payload={
+                    "beneficiary_id": str(beneficiary.id),
+                    "user_id": str(beneficiary.user_id),
+                    "beneficiary_type": beneficiary.beneficiary_type,
+                    "fingerprint": beneficiary.fingerprint,
+                    "country": beneficiary.country,
+                },
+            )
+        )
     return beneficiary
 
 
@@ -254,12 +336,18 @@ def validate_transfer(*, account_id, user_id, beneficiary_id, amount: Decimal,
         return {"ok": False, "reason": "CURRENCY_MISMATCH"}
 
     beneficiary = None
+    credit_account = None
     if beneficiary_id:
         beneficiary = Beneficiary.objects.filter(pk=beneficiary_id, user_id=user_id).first()
         if beneficiary is None:
             return {"ok": False, "reason": "BENEFICIARY_NOT_FOUND"}
         if beneficiary.status == Beneficiary.Status.BLOCKED:
             return {"ok": False, "reason": "BENEFICIARY_BLOCKED"}
+
+        if rail == "INTERNAL":
+            credit_account, failure = _internal_credit_account(beneficiary)
+            if failure:
+                return {"ok": False, "reason": failure}
 
     ok, reason, detail = check_and_reserve(
         account=account, rail=rail, amount=Decimal(amount), currency=currency
@@ -275,9 +363,9 @@ def validate_transfer(*, account_id, user_id, beneficiary_id, amount: Decimal,
         "limits": {"daily_remaining": detail["daily_remaining"]},
     }
     if beneficiary:
-        in_cooling_off = bool(
-            beneficiary.cooling_off_until and beneficiary.cooling_off_until > now
-        )
+        # How new the payee is stays a fraud signal even though it no longer
+        # restricts anything: fraud-svc scores on it, account-svc does not act
+        # on it.
         age_hours = (now - beneficiary.created_at).total_seconds() / 3600
         result["beneficiary"] = {
             "id": str(beneficiary.id),
@@ -286,6 +374,50 @@ def validate_transfer(*, account_id, user_id, beneficiary_id, amount: Decimal,
             "fingerprint": beneficiary.fingerprint,
             "country": beneficiary.country,
             "age_hours": round(age_hours, 2),
-            "in_cooling_off": in_cooling_off,
+            # Present only for INTERNAL. The saga credits this account, and
+            # refuses to post at all if it is missing -- see saga._legs_for.
+            "credit_account_id": str(credit_account.id) if credit_account else None,
+            "credit_user_id": str(credit_account.user_id) if credit_account else None,
+            "credit_account_masked": credit_account.masked if credit_account else "",
         }
+    # The payer's own account, so the receiving side can name who paid them
+    # without account-svc having to be asked a second time.
+    result["debit_account"] = {
+        "id": str(account.id),
+        "masked": account.masked,
+        "currency": account.currency,
+    }
     return result
+
+
+def _internal_credit_account(beneficiary: Beneficiary) -> tuple[Account | None, str]:
+    """The account an internal transfer credits, re-checked at transfer time.
+
+    Resolution is cached on the payee, but the *state* of the destination is
+    not: an account frozen or closed since the payee was added must stop the
+    transfer. Returns ``(account, failure_reason)``.
+    """
+    account = None
+    if beneficiary.internal_account_id:
+        account = Account.objects.filter(pk=beneficiary.internal_account_id).first()
+    else:
+        # A payee added before internal resolution existed. Resolve it now and
+        # backfill, rather than refusing a transfer the customer set up in good
+        # faith.
+        account = Account.objects.filter(
+            account_number=beneficiary.account_number
+        ).first()
+        if account is not None:
+            Beneficiary.objects.filter(pk=beneficiary.pk).update(
+                internal_account_id=account.id,
+                internal_user_id=account.user_id,
+                resolved_at=timezone.now(),
+            )
+
+    if account is None:
+        return None, "BENEFICIARY_ACCOUNT_UNRESOLVED"
+    if account.status != Account.Status.ACTIVE:
+        return None, f"BENEFICIARY_ACCOUNT_{account.status}"
+    if account.currency != beneficiary.currency:
+        return None, "BENEFICIARY_CURRENCY_MISMATCH"
+    return account, ""

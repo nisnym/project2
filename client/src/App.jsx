@@ -8,6 +8,7 @@ import Login from './routes/Login'
 import Register from './routes/Register'
 import Onboarding from './routes/Onboarding'
 import Inbox from './routes/Inbox'
+import ChangePassword from './routes/ChangePassword'
 
 import Accounts from './routes/customer/Accounts'
 import SendMoney from './routes/customer/SendMoney'
@@ -29,6 +30,8 @@ import FraudRules from './routes/admin/FraudRules'
 import Thresholds from './routes/admin/Thresholds'
 import Limits from './routes/admin/Limits'
 import AuditTrail from './routes/admin/AuditTrail'
+import Users from './routes/admin/Users'
+import Approvals from './routes/admin/Approvals'
 
 /** Blocks a route until the session is known, then on role. */
 function Guard({ allow, children }) {
@@ -44,6 +47,11 @@ function Guard({ allow, children }) {
   }
   if (!user) {
     return <Navigate to="/login" state={{ from: location.pathname }} replace />
+  }
+  // A password an administrator issued is a credential that travelled out of
+  // band to get here. Nothing else in the app opens until it has been replaced.
+  if (user.must_change_password && location.pathname !== '/change-password') {
+    return <Navigate to="/change-password" replace />
   }
   // Redirect rather than show a 403: a signed-in user reaching the wrong shell
   // has almost always followed a stale link, and their own home is the useful
@@ -94,6 +102,7 @@ export default function App() {
         }
       >
         <Route path="/inbox" element={<Inbox />} />
+        <Route path="/change-password" element={<ChangePassword />} />
 
         {/* customer */}
         <Route path="/onboarding" element={<Guard allow={CUSTOMER}><Onboarding /></Guard>} />
@@ -119,6 +128,8 @@ export default function App() {
         <Route path="/ops/reports" element={<Guard allow={OPS}><Reports /></Guard>} />
 
         {/* administration */}
+        <Route path="/admin/users" element={<Guard allow={ADMIN}><Users /></Guard>} />
+        <Route path="/admin/approvals" element={<Guard allow={ADMIN}><Approvals /></Guard>} />
         <Route path="/admin/rules" element={<Guard allow={ADMIN}><FraudRules /></Guard>} />
         <Route path="/admin/thresholds" element={<Guard allow={ADMIN}><Thresholds /></Guard>} />
         <Route path="/admin/limits" element={<Guard allow={ADMIN}><Limits /></Guard>} />

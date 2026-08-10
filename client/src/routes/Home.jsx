@@ -21,7 +21,7 @@ const CONSOLES = [
       'Open an account — identity checks, eligibility scoring, account number issued',
       'Add money from an external bank, a debit card or a wallet',
       'Send within IND Bank, across India, or internationally',
-      'Manage payees, with a cooling-off period on new ones',
+      'Add a payee and pay them straight away — screening does the rest',
       'Set up standing orders — daily, weekly or monthly',
       'Follow a transfer step by step and cancel it before it leaves',
     ],

@@ -102,9 +102,14 @@ def create_transfer(*, user_id, account_id, beneficiary_id, amount: Decimal,
     if Decimal(amount) <= 0:
         raise ValidationFailed("Amount must be greater than zero.")
 
+    reference = make_reference(TxnType.TRANSFER)
     with transaction.atomic():
         txn = Transaction.objects.create(
-            reference=make_reference(TxnType.TRANSFER),
+            reference=reference,
+            # The shared reference both sides of an internal transfer quote. On
+            # the sender's row it equals their own reference; the recipient's
+            # mirrored row borrows it.
+            transfer_ref=reference,
             user_id=user_id,
             account_id=account_id,
             txn_type=TxnType.TRANSFER,
@@ -130,9 +135,11 @@ def create_funding(*, user_id, account_id, funding_source_id, amount: Decimal,
     if Decimal(amount) <= 0:
         raise ValidationFailed("Amount must be greater than zero.")
 
+    reference = make_reference(TxnType.FUNDING)
     with transaction.atomic():
         txn = Transaction.objects.create(
-            reference=make_reference(TxnType.FUNDING),
+            reference=reference,
+            transfer_ref=reference,
             user_id=user_id,
             account_id=account_id,
             txn_type=TxnType.FUNDING,

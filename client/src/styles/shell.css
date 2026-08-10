@@ -258,6 +258,12 @@ button.masthead__cell:hover {
   gap: var(--s-4);
 }
 
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+
 .split {
   display: grid;
   grid-template-columns: minmax(0, 1.65fr) minmax(300px, 1fr);
@@ -375,7 +381,8 @@ button.masthead__cell:hover {
   .split,
   .split--wide-right,
   .grid-2,
-  .grid-3 {
+  .grid-3,
+  .grid-4 {
     grid-template-columns: minmax(0, 1fr);
   }
 

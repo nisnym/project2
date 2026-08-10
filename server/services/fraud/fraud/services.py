@@ -68,7 +68,6 @@ class ScreenRequest:
     beneficiary_fingerprint: str = ""
     beneficiary_country: str = ""
     beneficiary_age_hours: float = 0.0
-    beneficiary_in_cooling_off: bool = False
     device_fingerprint: str = ""
     ip_country: str = ""
     account_opened_at=None
@@ -206,7 +205,6 @@ def assemble_features(request: ScreenRequest) -> FeatureVector:
         distinct_benef_24h=window["benef_24h"] or 0,
         beneficiary_is_new=known is None and bool(request.beneficiary_fingerprint),
         beneficiary_age_hours=request.beneficiary_age_hours,
-        beneficiary_in_cooling_off=request.beneficiary_in_cooling_off,
         beneficiary_blacklisted=(
             request.beneficiary_fingerprint.upper()
             in lists.get(ListEntry.ListType.BLACKLIST_BENEFICIARY, set())

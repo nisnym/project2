@@ -24,6 +24,13 @@ TEMPLATES = {
         "Your transfer of {amount} to {beneficiary} is complete. Reference {reference}.",
         [Channel.IN_APP, Channel.EMAIL],
     ),
+    "payment.received": (
+        "TRANSFER_RECEIVED", "Money received",
+        # Addressed to the recipient, whose user_id this event carries -- the
+        # other payment.* events all carry the payer's.
+        "You received {amount} from {from_masked}. Reference {reference}.",
+        [Channel.IN_APP, Channel.EMAIL],
+    ),
     "payment.approved": (
         "TRANSFER_APPROVED", "Transfer approved",
         "Your transfer of {amount} has been approved. Reference {reference}.",
@@ -71,6 +78,11 @@ TEMPLATES = {
         "immediately.",
         [Channel.IN_APP, Channel.EMAIL],
     ),
+    "beneficiary.blocked": (
+        "BENEFICIARY_BLOCKED", "Payee blocked",
+        "A payee was blocked and can no longer be paid from your account.",
+        [Channel.IN_APP, Channel.EMAIL],
+    ),
     "security.refresh_reuse_detected": (
         "SECURITY_ALERT", "Security alert: you've been signed out",
         "We detected unusual activity on your session and signed you out "
@@ -80,6 +92,37 @@ TEMPLATES = {
     "user.login_failed": (
         "LOGIN_FAILED", "Failed sign-in attempt",
         "There was a failed sign-in attempt on your account.",
+        [Channel.IN_APP],
+    ),
+    # Administrative changes to an account. The person they were done *to* is
+    # told, always -- an administrator acting alone on someone's access is
+    # precisely what the affected customer needs to be able to challenge.
+    "user.password_reset": (
+        "PASSWORD_RESET", "Your password was reset",
+        "An administrator reset the password on your account and signed you out "
+        "everywhere. If you did not request this, contact us immediately.",
+        [Channel.IN_APP, Channel.EMAIL],
+    ),
+    "user.password_changed": (
+        "PASSWORD_CHANGED", "Your password was changed",
+        "Your password was changed and every other session was signed out. If "
+        "this wasn't you, contact us immediately.",
+        [Channel.IN_APP, Channel.EMAIL],
+    ),
+    "user.status_changed": (
+        "ACCOUNT_STATUS_CHANGED", "Your account status has changed",
+        "Your account status is now {status}. Contact us if you were not "
+        "expecting this.",
+        [Channel.IN_APP, Channel.EMAIL],
+    ),
+    "user.unlocked": (
+        "ACCOUNT_UNLOCKED", "Your account has been unlocked",
+        "Your account has been unlocked and you can sign in again.",
+        [Channel.IN_APP, Channel.EMAIL],
+    ),
+    "user.sessions_revoked": (
+        "SESSIONS_REVOKED", "You've been signed out",
+        "You were signed out on every device. Please sign in again.",
         [Channel.IN_APP],
     ),
     "schedule.failed": (
@@ -107,6 +150,8 @@ def render(event_type: str, payload: dict) -> tuple[str, str, str, list[str]] | 
         "reference": payload.get("reference", ""),
         "beneficiary": payload.get("beneficiary_masked") or "the payee",
         "account_number_masked": payload.get("account_number_masked", ""),
+        "from_masked": payload.get("from_masked") or "another account",
+        "status": payload.get("status", ""),
     }
     try:
         rendered = body.format(**context)

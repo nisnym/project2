@@ -10,6 +10,7 @@ import react from '@vitejs/plugin-react'
 // listed first, which `Object.entries` preserves.
 const SERVICES = {
   '/api/auth': 8001,
+  '/api/admin': 8001,
   '/.well-known': 8001,
   '/api/onboarding': 8002,
   '/api/kyc': 8003,

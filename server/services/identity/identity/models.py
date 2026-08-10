@@ -21,6 +21,12 @@ class Role(models.TextChoices):
     ADMIN = "ADMIN", "Administrator"
 
 
+# The roles an administrator may mint an account for. CUSTOMER is deliberately
+# absent: customers arrive through onboarding, which opens an account and runs
+# KYC. A staff-created customer would have neither.
+STAFF_ROLES = frozenset({Role.FRAUD_ANALYST, Role.OPS, Role.ADMIN})
+
+
 class User(models.Model):
     class Status(models.TextChoices):
         PENDING = "PENDING", "Pending"
@@ -38,6 +44,14 @@ class User(models.Model):
 
     mfa_secret = models.CharField(max_length=64, blank=True)
     mfa_enabled = models.BooleanField(default=False)
+
+    # Set when an administrator resets the password, or mints a staff account
+    # with a generated one. Reported on the login response and on /api/auth/me
+    # so the client can require a change before letting the session be used;
+    # POST /api/auth/change-password clears it. Enforcement is at the client,
+    # not per-endpoint -- worth knowing, because it means the flag raises the
+    # cost of a leaked temporary credential rather than eliminating it.
+    must_change_password = models.BooleanField(default=False)
 
     # Throttling brute force at the account rather than only at the edge: an
     # attacker rotating IPs still hits this.
@@ -97,6 +111,90 @@ class Device(models.Model):
             models.UniqueConstraint(fields=["user", "fingerprint_hash"],
                                     name="identity_uniq_device")
         ]
+
+
+class AdminChangeRequest(models.Model):
+    """A privileged change to a user, staged for a second administrator.
+
+    Segregation of duties: the administrator who *requests* a change is never
+    the one who applies it. Anything that grants or restores access -- a role,
+    an unlock, a password reset, a new staff account -- lands here as PENDING
+    and does nothing until a different admin approves it.
+
+    Containment actions are deliberately *not* routed through here. Locking an
+    account or killing its sessions takes access away, and requiring a quorum to
+    stop an in-progress takeover at 2am would be a control that gets people
+    robbed. Those apply immediately and are audited like everything else.
+    """
+
+    class Action(models.TextChoices):
+        ROLE_CHANGE = "ROLE_CHANGE", "Change role"
+        CREATE_STAFF = "CREATE_STAFF", "Create staff user"
+        UNLOCK = "UNLOCK", "Unlock account"
+        ACTIVATE = "ACTIVATE", "Reactivate account"
+        CLOSE = "CLOSE", "Close account"
+        PASSWORD_RESET = "PASSWORD_RESET", "Force password reset"
+
+    class Status(models.TextChoices):
+        PENDING = "PENDING", "Awaiting a second administrator"
+        APPLIED = "APPLIED", "Approved and applied"
+        REJECTED = "REJECTED", "Rejected"
+        FAILED = "FAILED", "Approved but could not be applied"
+        WITHDRAWN = "WITHDRAWN", "Withdrawn by the requester"
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    action = models.CharField(max_length=20, choices=Action.choices)
+
+    # Null for CREATE_STAFF: there is no user yet. Not a FK for the same reason
+    # -- the row must survive as evidence even if the user is later deleted.
+    target_user = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.SET_NULL,
+        related_name="change_requests",
+    )
+    # Denormalised so the request stays readable after the target is gone.
+    target_email = models.EmailField(blank=True)
+
+    payload = models.JSONField(default=dict)
+    reason = models.CharField(max_length=200, blank=True)
+
+    requested_by = models.UUIDField(db_index=True)
+    requested_by_email = models.EmailField(blank=True)
+    requested_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    status = models.CharField(
+        max_length=10, choices=Status.choices, default=Status.PENDING, db_index=True
+    )
+    decided_by = models.UUIDField(null=True, blank=True)
+    decided_by_email = models.EmailField(blank=True)
+    decided_at = models.DateTimeField(null=True, blank=True)
+    decision_reason = models.CharField(max_length=200, blank=True)
+    error = models.TextField(blank=True)
+
+    correlation_id = models.CharField(max_length=64, blank=True, db_index=True)
+
+    class Meta:
+        db_table = "identity_admin_change_request"
+        ordering = ["-requested_at"]
+        indexes = [
+            models.Index(fields=["status", "-requested_at"],
+                         name="identity_acr_queue_idx"),
+        ]
+        constraints = [
+            # One open request per action per target. Two admins independently
+            # queueing "make them ADMIN" must not become two approvals.
+            models.UniqueConstraint(
+                fields=["target_user", "action"],
+                condition=models.Q(status="PENDING"),
+                name="identity_uniq_open_change_request",
+            ),
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.action} on {self.target_email or '(new user)'} [{self.status}]"
+
+    @property
+    def is_open(self) -> bool:
+        return self.status == self.Status.PENDING
 
 
 class RefreshToken(models.Model):

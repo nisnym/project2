@@ -83,7 +83,6 @@ class FeatureVector:
     # beneficiary
     beneficiary_is_new: bool
     beneficiary_age_hours: float
-    beneficiary_in_cooling_off: bool
     beneficiary_blacklisted: bool
     beneficiary_txn_count: int
 
@@ -250,7 +249,7 @@ def sample_vector(**overrides) -> FeatureVector:
         amount_vs_max_ratio=1.0, txn_count_5m=0, txn_sum_5m=Decimal("0"),
         txn_count_1h=0, txn_count_24h=0, txn_sum_24h=Decimal("0"),
         distinct_benef_5m=0, distinct_benef_24h=0, beneficiary_is_new=False,
-        beneficiary_age_hours=0.0, beneficiary_in_cooling_off=False,
+        beneficiary_age_hours=0.0,
         beneficiary_blacklisted=False, beneficiary_txn_count=0,
         destination_country="IN", destination_is_high_risk=False,
         country_changed=False, device_is_new=False, device_blocked=False,
