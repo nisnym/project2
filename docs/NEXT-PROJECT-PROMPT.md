@@ -12,7 +12,9 @@ handbook → drift audit.
 2. Fill in **§0** with your new use case. That is the only part you must edit.
 3. Edit **§1** if your environment constraints differ (Docker available? real
    Postgres? cloud?). Everything downstream adapts.
-4. Send it. The model will ask you at most a handful of blocking questions, then
+4. Check **§14b** against the skills actually installed in that session — the
+   list changes per machine. `frontend-design` is the one that matters most.
+5. Send it. The model will ask you at most a handful of blocking questions, then
    work phase by phase.
 
 **Why this shape works:** the last build produced 10 services, 46 tables, 37 event
@@ -325,7 +327,9 @@ The big one, ~1,800 lines. This is where an implementer gets everything they nee
    order, the scoring model, shadow mode, and how thresholds are changed safely.
 7. **Frontend** — the real component/route tree, where the token lives and why,
    how refresh is coalesced so ten parallel 401s cause one refresh, and how the
-   critical quantity is formatted without ever becoming a float.
+   critical quantity is formatted without ever becoming a float. Record the
+   **design direction and token file** here too (§14b) — four lines, so the next
+   person extends the look instead of inventing a second one.
 8. **Concurrency & correctness rules** — a numbered list. Every one must be
    traceable to code. This section is gold in an interview.
 9. **Testing strategy** — with a "Built?" column. Mark ❌ anything you list but do
@@ -412,7 +416,9 @@ Order of work:
    service boundary.
 4. **The spine service** (identity/auth), then the services that own the protected
    resource, then the rest.
-5. **The frontend last**, against the contracts that already exist.
+5. **The frontend last**, against the contracts that already exist — but
+   **invoke the `frontend-design` skill before the first component** and settle
+   the aesthetic direction and design tokens up front. See §14b.
 
 Also write these operational scripts — they are what makes the project runnable by
 someone who is not you:
@@ -540,6 +546,61 @@ Back up each document before editing it, and report the diff stat at the end.
 
 ---
 
+## §14b — Skills to invoke
+
+Check the available-skills list at the start of the session and use what is there.
+These are the ones that matter for a project of this shape:
+
+### `frontend-design` — invoke before writing any UI
+
+**When:** at the start of Phase 7's frontend step, *not* after the screens exist.
+Retrofitting a look onto forty finished components is a rewrite; choosing one
+first costs nothing.
+
+**How:** invoke the skill with a one-line brief naming the product, the aesthetic
+direction, the stack, and every role shell — e.g.
+
+> `/frontend-design` Design a boxy, banking-grade UI for "<product>" — Vite + React
+> SPA with four role shells (customer, reviewer, ops, admin)
+
+**What it enforces, and why it is worth the turn:**
+
+- **Commit to one aesthetic direction and execute it precisely.** A named
+  direction ("boxy institutional", "editorial", "industrial/utilitarian") makes
+  every later decision automatic. Without one you get a different-looking screen
+  per session.
+- **No default AI look.** No Inter/Roboto/system-font stacks, no purple-gradient-
+  on-white, no card-grid-with-rounded-corners on every page. In a judging room
+  full of demos, generic *is* the failure mode.
+- **Design tokens before components.** One file of colour, spacing, radius and
+  type tokens, then the component CSS. This is also what lets four people build
+  four consoles that look like one product.
+- **Typography and density carry the credibility.** For anything regulated —
+  money, health, logistics — dense, tabular, sharp-cornered and monospaced-where-
+  numeric reads as trustworthy; airy consumer-app styling reads as a toy.
+
+**One rule the skill will not tell you, but this domain requires:** whatever §3.2
+called the protected quantity must be rendered from its string form with a
+fixed-width numeric font and consistent alignment, and must never pass through
+`parseFloat` on its way to the screen. Right-align it in every table.
+
+**Record the choice** in the LLD frontend section — direction, fonts, the token
+file — in three or four lines. It is the difference between a look somebody chose
+and a look that happened.
+
+### Others worth a look
+
+- **`artifact-design`** — only if you need a shareable HTML page (a demo
+  walkthrough, an architecture one-pager for judges). Not needed for the app.
+- **Language/LSP plugins** (`gopls-lsp` and equivalents) — install the one for
+  your stack before Phase 7; it catches import and type errors as you write
+  instead of at test time.
+
+If a skill in the list looks relevant to a phase, invoke it at the **start** of
+that phase rather than at the end.
+
+---
+
 ## §15 — The one paragraph you should be able to write at the end
 
 Before you tell me the project is finished, write the paragraph that opens the
@@ -563,7 +624,9 @@ yet, however much code exists.
 **Trim it if the session is short.** The phases are independent enough that you
 can send §0–§3 plus §4–§6 (first principles + HLD + LLD) and hold the rest for
 later turns. Do not drop §3 (engineering rules) or §13 (drift audit) — those are
-the two that carried the last build.
+the two that carried the last build. Keep §14b if the project has a UI at all;
+it costs six lines of prompt and saves the "why does every console look
+different" conversation on day two.
 
 **Ordering matters.** Sending the whole thing at once works, but the model does
 better if you let it finish Phase 1 and *read the first-principles doc yourself*
@@ -591,3 +654,6 @@ Phase 7.
 6. Floats for the quantity that must balance.
 7. A saga whose failed compensation goes to a log file instead of a queue.
 8. Docs that describe the system you planned rather than the one you shipped.
+9. Building forty screens and *then* trying to make them look designed.
+10. Four people building four consoles that look like four different products,
+    because nobody wrote the design tokens down first.

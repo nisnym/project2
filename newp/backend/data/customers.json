@@ -1,0 +1,73 @@
+[
+  {
+    "id": "cust-001",
+    "name": "Ananya Iyer",
+    "segment": "salaried",
+    "city": "Bengaluru",
+    "monthlyIncome": 145000,
+    "incomeStability": "regular",
+    "currency": "INR",
+    "joinedOn": "2021-04-12",
+    "goals": [
+      {
+        "id": "goal-001",
+        "label": "Emergency fund",
+        "targetAmount": 600000,
+        "savedAmount": 214000,
+        "targetDate": "2027-06-30"
+      },
+      {
+        "id": "goal-002",
+        "label": "Japan trip",
+        "targetAmount": 250000,
+        "savedAmount": 60000,
+        "targetDate": "2027-03-31"
+      }
+    ]
+  },
+  {
+    "id": "cust-002",
+    "name": "Rohit Menon",
+    "segment": "student",
+    "city": "Pune",
+    "monthlyIncome": 18000,
+    "incomeStability": "regular",
+    "currency": "INR",
+    "joinedOn": "2025-08-01",
+    "goals": [
+      {
+        "id": "goal-003",
+        "label": "New laptop",
+        "targetAmount": 65000,
+        "savedAmount": 12000,
+        "targetDate": "2027-01-31"
+      }
+    ]
+  },
+  {
+    "id": "cust-003",
+    "name": "Farhan Qureshi",
+    "segment": "self-employed",
+    "city": "Delhi",
+    "monthlyIncome": 95000,
+    "incomeStability": "variable",
+    "currency": "INR",
+    "joinedOn": "2019-11-05",
+    "goals": [
+      {
+        "id": "goal-004",
+        "label": "Six-month buffer",
+        "targetAmount": 450000,
+        "savedAmount": 96000,
+        "targetDate": "2027-12-31"
+      },
+      {
+        "id": "goal-005",
+        "label": "Advance tax reserve",
+        "targetAmount": 180000,
+        "savedAmount": 45000,
+        "targetDate": "2027-03-15"
+      }
+    ]
+  }
+]

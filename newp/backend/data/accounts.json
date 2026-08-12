@@ -1,0 +1,26 @@
+[
+  {
+    "id": "acc-001",
+    "customerId": "cust-001",
+    "type": "savings",
+    "balance": 214560.75,
+    "currency": "INR",
+    "openedOn": "2021-04-12"
+  },
+  {
+    "id": "acc-002",
+    "customerId": "cust-002",
+    "type": "savings",
+    "balance": 8420.5,
+    "currency": "INR",
+    "openedOn": "2025-08-01"
+  },
+  {
+    "id": "acc-003",
+    "customerId": "cust-003",
+    "type": "current",
+    "balance": 96350.2,
+    "currency": "INR",
+    "openedOn": "2019-11-05"
+  }
+]

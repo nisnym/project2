@@ -1,0 +1,22 @@
+[
+  { "customerId": "cust-001", "category": "dining", "monthlyLimit": 8000 },
+  { "customerId": "cust-001", "category": "groceries", "monthlyLimit": 12000 },
+  { "customerId": "cust-001", "category": "transport", "monthlyLimit": 3000 },
+  { "customerId": "cust-001", "category": "shopping", "monthlyLimit": 6000 },
+  { "customerId": "cust-001", "category": "entertainment", "monthlyLimit": 3000 },
+  { "customerId": "cust-001", "category": "subscriptions", "monthlyLimit": 3000 },
+  { "customerId": "cust-001", "category": "utilities", "monthlyLimit": 5000 },
+
+  { "customerId": "cust-002", "category": "dining", "monthlyLimit": 2500 },
+  { "customerId": "cust-002", "category": "groceries", "monthlyLimit": 1800 },
+  { "customerId": "cust-002", "category": "transport", "monthlyLimit": 800 },
+  { "customerId": "cust-002", "category": "subscriptions", "monthlyLimit": 400 },
+  { "customerId": "cust-002", "category": "education", "monthlyLimit": 1500 },
+
+  { "customerId": "cust-003", "category": "dining", "monthlyLimit": 6000 },
+  { "customerId": "cust-003", "category": "groceries", "monthlyLimit": 9000 },
+  { "customerId": "cust-003", "category": "transport", "monthlyLimit": 4000 },
+  { "customerId": "cust-003", "category": "shopping", "monthlyLimit": 6000 },
+  { "customerId": "cust-003", "category": "subscriptions", "monthlyLimit": 5000 },
+  { "customerId": "cust-003", "category": "utilities", "monthlyLimit": 6000 }
+]

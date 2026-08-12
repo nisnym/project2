@@ -1,0 +1,42 @@
+/* ==========================================================
+   DESIGN TOKENS — PFA Ledger UI
+   Boxy statement aesthetic: every element lives in a hard-
+   bordered cell. Zero border-radius by design, not oversight.
+   ========================================================== */
+
+:root {
+  /* --- color --- */
+  --ink:        #12181F;   /* page background */
+  --surface:    #1B2530;   /* box fill */
+  --surface-2:  #212D3A;   /* hover / secondary box fill */
+  --line:       #3A4757;   /* border color, all boxes */
+  --line-soft:  #2A3543;   /* faint divider inside boxes */
+
+  --text:       #EDEEF0;   /* primary text */
+  --text-muted: #7C8698;   /* labels, captions */
+  --text-dim:   #4E5A6B;   /* placeholder / disabled */
+
+  --gold:       #E8A33D;   /* accent — CTAs, active states */
+  --gold-dim:   #7A5A28;
+
+  --credit:     #6FCF97;   /* money in / under budget */
+  --debit:      #E2725B;   /* money out / over budget */
+
+  /* --- type --- */
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* --- geometry --- */
+  --border-w: 2px;
+  --radius: 0px; /* intentional: nothing in this UI is rounded */
+
+  /* --- spacing scale --- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+}

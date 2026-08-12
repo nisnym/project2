@@ -1,0 +1,187 @@
+INFO:     Started server process [3631]
+INFO:     Waiting for application startup.
+22:46:18  INFO     budget-service        budget-service ready
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9003 (Press CTRL+C to quit)
+INFO:     127.0.0.1:60639 - "GET /health HTTP/1.1" 200 OK
+22:46:18  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:18  INFO     budget-service        GET /budgets/cust-001 -> 200 (33.2ms)
+INFO:     127.0.0.1:60656 - "GET /budgets/cust-001 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001 -> 200 (3.2ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001 -> 200 (2.7ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001/suggestions -> 200 (3.7ms)
+INFO:     127.0.0.1:60656 - "GET /budgets/cust-001/suggestions HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-003 -> 200 (1.7ms)
+INFO:     127.0.0.1:60656 - "GET /budgets/cust-003 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-003 -> 200 (1.7ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-003 -> 200 (1.7ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-003/suggestions -> 200 (3.1ms)
+INFO:     127.0.0.1:60656 - "GET /budgets/cust-003/suggestions HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-002 -> 200 (1.6ms)
+INFO:     127.0.0.1:60656 - "GET /budgets/cust-002 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-002 -> 200 (1.7ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-002 -> 200 (1.9ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-002/suggestions -> 200 (3.0ms)
+INFO:     127.0.0.1:60656 - "GET /budgets/cust-002/suggestions HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001 -> 200 (1.8ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-003 -> 200 (2.5ms)
+INFO:     127.0.0.1:60710 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-002 -> 200 (2.8ms)
+INFO:     127.0.0.1:60713 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001 -> 200 (1.6ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-003 -> 200 (1.8ms)
+INFO:     127.0.0.1:60710 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-002 -> 200 (1.3ms)
+INFO:     127.0.0.1:60713 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001 -> 200 (2.4ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-003 -> 200 (2.0ms)
+INFO:     127.0.0.1:60710 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-002 -> 200 (2.2ms)
+INFO:     127.0.0.1:60713 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-003/suggestions -> 200 (3.5ms)
+INFO:     127.0.0.1:60656 - "GET /budgets/cust-003/suggestions HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-003 -> 200 (1.9ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001/suggestions -> 200 (4.2ms)
+INFO:     127.0.0.1:60726 - "GET /budgets/cust-001/suggestions HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001 -> 200 (2.2ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001/suggestions -> 200 (3.6ms)
+INFO:     127.0.0.1:60726 - "GET /budgets/cust-001/suggestions HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-001 -> 200 (1.9ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-002/suggestions -> 200 (3.3ms)
+INFO:     127.0.0.1:60726 - "GET /budgets/cust-002/suggestions HTTP/1.1" 200 OK
+22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:46:19  INFO     budget-service        GET /budgets/cust-002 -> 200 (2.0ms)
+INFO:     127.0.0.1:60680 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61094 - "GET /health HTTP/1.1" 200 OK
+22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:48:34  INFO     budget-service        GET /budgets/cust-001 -> 200 (20.1ms)
+INFO:     127.0.0.1:61101 - "GET /budgets/cust-001 HTTP/1.1" 200 OK
+22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+INFO:     127.0.0.1:61101 - "GET /health HTTP/1.1" 200 OK
+22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+22:48:34  INFO     budget-service        GET /budgets/cust-001/suggestions -> 200 (16.9ms)
+INFO:     127.0.0.1:61094 - "GET /budgets/cust-001/suggestions HTTP/1.1" 200 OK
+22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:48:34  INFO     budget-service        GET /budgets/cust-001 -> 200 (8.5ms)
+INFO:     127.0.0.1:61145 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:48:34  INFO     budget-service        GET /budgets/cust-001 -> 200 (5.3ms)
+INFO:     127.0.0.1:61150 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61094 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61094 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61165 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61165 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61165 - "GET /health HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-001 -> 200 (26.8ms)
+INFO:     127.0.0.1:61228 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     budget-service        GET /budgets/cust-003 -> 200 (24.7ms)
+INFO:     127.0.0.1:61241 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-002 -> 200 (23.3ms)
+INFO:     127.0.0.1:61288 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-003 -> 200 (21.3ms)
+INFO:     127.0.0.1:61309 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-001 -> 200 (18.9ms)
+INFO:     127.0.0.1:61331 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-002 -> 200 (19.7ms)
+INFO:     127.0.0.1:61342 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     budget-service        GET /budgets/cust-001 -> 200 (17.5ms)
+INFO:     127.0.0.1:61364 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     budget-service        GET /budgets/cust-002 -> 200 (13.8ms)
+INFO:     127.0.0.1:61374 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     budget-service        GET /budgets/cust-003 -> 200 (10.7ms)
+INFO:     127.0.0.1:61390 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-001 -> 200 (2.0ms)
+INFO:     127.0.0.1:61228 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-003 -> 200 (2.0ms)
+INFO:     127.0.0.1:61241 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-001 -> 200 (1.9ms)
+INFO:     127.0.0.1:61228 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-002 -> 200 (1.8ms)
+INFO:     127.0.0.1:61288 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-002 -> 200 (1.5ms)
+INFO:     127.0.0.1:61241 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-001 -> 200 (1.9ms)
+INFO:     127.0.0.1:61309 - "GET /budgets/cust-001?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-002 -> 200 (1.6ms)
+INFO:     127.0.0.1:61228 - "GET /budgets/cust-002?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-003 -> 200 (1.7ms)
+INFO:     127.0.0.1:61288 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/pace?month=2026-08 "HTTP/1.1 200 OK"
+22:49:03  INFO     budget-service        GET /budgets/cust-003 -> 200 (1.6ms)
+INFO:     127.0.0.1:61241 - "GET /budgets/cust-003?month=2026-08 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61165 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61417 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61417 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61417 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61417 - "GET /health HTTP/1.1" 200 OK
