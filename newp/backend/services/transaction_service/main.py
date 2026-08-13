@@ -105,7 +105,9 @@ async def add_transaction(customer_id: str, body: NewTransaction) -> dict:
         raise AppError("Both merchant and category are required.", code="invalid_transaction")
 
     row = {
-        "id": transactions.next_id("t9"),
+        # "new-001" rather than a seed-style id: anything added during a demo
+        # should be obvious as such in the ledger and in insight data points.
+        "id": transactions.next_id("new-"),
         "customerId": customer_id,
         "date": body.date or today().isoformat(),
         "amount": round_money(body.amount),

@@ -143,6 +143,15 @@ def budget_breach(ctx: Context) -> list[Insight]:
         category = budget["category"]
         overshoot = round_money(budget["spentSoFar"] - budget["monthlyLimit"])
         biggest = ctx.category_txns(category)[:3]
+        # House rule: an insight never ships without a reason. The budget
+        # service always sends one, but we compose our own rather than trust
+        # that — an empty reason on screen is worse than a duplicated sentence.
+        reason = budget.get("reason") or (
+            f"{format_inr(budget['spentSoFar'])} spent against a "
+            f"{format_inr(budget['monthlyLimit'])} {category} limit — "
+            f"{format_inr(overshoot)} past it, with {ctx.days_left} days left in "
+            f"{month_label(ctx.month)}."
+        )
 
         out.append(
             Insight(
@@ -157,7 +166,7 @@ def budget_breach(ctx: Context) -> list[Insight]:
                     f"{format_inr(budget['monthlyLimit'])} limit, {ctx.day} days into "
                     f"{month_label(ctx.month)}."
                 ),
-                reason=budget.get("reason") or "",
+                reason=reason,
                 recommendedAction=(
                     f"Spending nothing more on {category} for the remaining {ctx.days_left} days "
                     f"still ends the month {format_inr(overshoot)} above plan, so the useful "
@@ -198,7 +207,12 @@ def budget_pace_risk(ctx: Context) -> list[Insight]:
                     f"Projected {format_inr(budget['projectedSpend'])} against a "
                     f"{format_inr(budget['monthlyLimit'])} limit."
                 ),
-                reason=budget.get("reason") or "",
+                reason=budget.get("reason")
+                or (
+                    f"{format_inr(budget['spentSoFar'])} of the {format_inr(budget['monthlyLimit'])} "
+                    f"{category} limit is gone {ctx.day} days in, and the month is heading for about "
+                    f"{format_inr(budget['projectedSpend'])}."
+                ),
                 recommendedAction=(
                     f"{format_inr(headroom)} is left for {ctx.days_left} days — about "
                     f"{format_inr(daily)} a day on {category}. Staying under that keeps the month intact."

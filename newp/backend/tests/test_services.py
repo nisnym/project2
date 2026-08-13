@@ -82,7 +82,7 @@ class TestTransactionService:
             json={"amount": -450, "category": "dining", "merchant": "Test Cafe"},
         )
         assert created.status_code == 201
-        assert created.json()["id"].startswith("t9")
+        assert created.json()["id"].startswith("new-")
 
         after = ledger.get("/customers/cust-002/summary").json()["totalSpend"]
         assert after == pytest.approx(before + 450)

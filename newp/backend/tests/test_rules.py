@@ -8,6 +8,7 @@ import pytest
 
 from services.insight_service import rules
 from services.insight_service.rules import Context
+from shared.money import format_inr
 
 CUSTOMER = {
     "id": "cust-t",
@@ -38,7 +39,13 @@ def summary(month, spend, income, categories, count=10):
     }
 
 
-def budget(category, limit, spent, projected, status, reason="because."):
+def budget(category, limit, spent, projected, status, reason=None):
+    # Mirrors what budget-service actually sends, reason included — a fixture
+    # with a placeholder reason would quietly weaken every assertion below.
+    reason = reason or (
+        f"{format_inr(spent)} spent against a {format_inr(limit)} limit, "
+        f"heading for {format_inr(projected)}."
+    )
     return {
         "customerId": "cust-t",
         "category": category,
@@ -74,12 +81,14 @@ def ctx():
         ],
         recurring={
             "monthsExamined": ["2026-08", "2026-07", "2026-06"],
-            "monthlyTotal": 3500,
+            "monthlyTotal": 35029,
             "recurring": [
-                {"merchant": "Netflix", "category": "subscriptions", "averageAmount": 799,
-                 "occurrences": 3, "transactionIds": ["t1"], "monthsSeen": []},
                 {"merchant": "Landlord", "category": "rent", "averageAmount": 30000,
                  "occurrences": 3, "transactionIds": ["t2"], "monthsSeen": []},
+                {"merchant": "Adobe Creative Cloud", "category": "subscriptions", "averageAmount": 4230,
+                 "occurrences": 3, "transactionIds": ["t3"], "monthsSeen": []},
+                {"merchant": "Netflix", "category": "subscriptions", "averageAmount": 799,
+                 "occurrences": 3, "transactionIds": ["t1"], "monthsSeen": []},
             ],
         },
         transactions=[
@@ -146,7 +155,9 @@ class TestIndividualRules:
         insight = rules.subscription_creep(ctx)[0]
         assert "Landlord" not in insight.reason
         assert "Netflix" in insight.reason
-        assert insight.impact == 799 * 12
+        # ₹30,000 of rent is excluded from both the total and the annual figure.
+        assert insight.impact == (4230 + 799) * 12
+        assert "commitments, not subscriptions" in insight.reason
 
     def test_goals_are_funded_in_order_not_from_the_same_rupees(self, ctx):
         # ₹40,000 kept last month. The bike needs ~₹33,333/month and has the

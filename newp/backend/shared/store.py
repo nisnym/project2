@@ -109,10 +109,10 @@ class JsonStore:
 
     def next_id(self, prefix: str) -> str:
         existing = {r.get(self.key) for r in self.all()}
-        n = len(existing) + 1
-        while f"{prefix}{n:04d}" in existing:
+        n = 1
+        while f"{prefix}{n:03d}" in existing:
             n += 1
-        return f"{prefix}{n:04d}"
+        return f"{prefix}{n:03d}"
 
     def count(self) -> int:
         return len(self.all())

@@ -1,525 +1,275 @@
-INFO:     Started server process [3637]
+INFO:     Started server process [7858]
 INFO:     Waiting for application startup.
-22:46:18  INFO     insight-service       insight-service ready
+07:52:23  INFO     insight-service       insight-service ready
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:9004 (Press CTRL+C to quit)
-INFO:     127.0.0.1:60641 - "GET /health HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-001/health -> 200 (94.5ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-001/health HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-001 -> 200 (10.4ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-001?limit=20 HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-003/health -> 200 (8.8ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-003/health HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-003 -> 200 (8.0ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-003?limit=20 HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-002/health -> 200 (8.9ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-002/health HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-002 -> 200 (10.3ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-002?limit=20 HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (25.5ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (24.7ms)
-INFO:     127.0.0.1:60703 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (24.9ms)
-INFO:     127.0.0.1:60704 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (25.3ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (24.4ms)
-INFO:     127.0.0.1:60704 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (25.4ms)
-INFO:     127.0.0.1:60703 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (23.0ms)
-INFO:     127.0.0.1:60704 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (24.8ms)
-INFO:     127.0.0.1:60703 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (28.3ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (9.6ms)
-INFO:     127.0.0.1:60661 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (9.0ms)
-INFO:     127.0.0.1:60727 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (8.9ms)
-INFO:     127.0.0.1:60727 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:46:19  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:46:19  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (9.1ms)
-INFO:     127.0.0.1:60727 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61100 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61100 - "GET /health HTTP/1.1" 200 OK
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:48:34  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:48:34  INFO     insight-service       GET /insights/cust-001/health -> 200 (33.1ms)
-INFO:     127.0.0.1:61103 - "GET /insights/cust-001/health HTTP/1.1" 200 OK
-22:48:34  INFO     insight-service       GET /insights/cust-001 -> 200 (39.3ms)
-INFO:     127.0.0.1:61102 - "GET /insights/cust-001?limit=20 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61100 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61100 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61166 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61166 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61166 - "GET /health HTTP/1.1" 200 OK
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (74.2ms)
-INFO:     127.0.0.1:61180 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (74.9ms)
-INFO:     127.0.0.1:61181 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (70.2ms)
-INFO:     127.0.0.1:61186 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (70.2ms)
-INFO:     127.0.0.1:61189 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (68.8ms)
-INFO:     127.0.0.1:61190 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (60.2ms)
-INFO:     127.0.0.1:61192 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (63.5ms)
-INFO:     127.0.0.1:61191 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (56.6ms)
-INFO:     127.0.0.1:61193 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (87.0ms)
-INFO:     127.0.0.1:61166 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (94.2ms)
-INFO:     127.0.0.1:61181 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (117.4ms)
-INFO:     127.0.0.1:61190 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (136.5ms)
-INFO:     127.0.0.1:61186 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
-22:49:03  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (149.5ms)
-INFO:     127.0.0.1:61166 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
-22:49:03  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (146.5ms)
-INFO:     127.0.0.1:61180 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (147.2ms)
-INFO:     127.0.0.1:61191 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (147.9ms)
-INFO:     127.0.0.1:61193 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
-22:49:03  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (149.1ms)
-INFO:     127.0.0.1:61192 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
-22:49:03  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (149.8ms)
-INFO:     127.0.0.1:61189 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61166 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61421 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61421 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61421 - "GET /health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:61421 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56205 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56221 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56221 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56221 - "GET /health HTTP/1.1" 200 OK
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     insight-service       GET /insights/cust-001/health -> 200 (63.3ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-001/health HTTP/1.1" 200 OK
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     insight-service       GET /insights/cust-001 -> 200 (9.1ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-001?limit=20 HTTP/1.1" 200 OK
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     insight-service       GET /insights/cust-003/health -> 200 (8.1ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-003/health HTTP/1.1" 200 OK
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     insight-service       GET /insights/cust-003 -> 200 (7.6ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-003?limit=20 HTTP/1.1" 200 OK
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     insight-service       GET /insights/cust-002/health -> 200 (8.3ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-002/health HTTP/1.1" 200 OK
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     insight-service       GET /insights/cust-002 -> 200 (7.7ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-002?limit=20 HTTP/1.1" 200 OK
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (25.5ms)
+INFO:     127.0.0.1:56271 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
+07:52:39  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (25.3ms)
+INFO:     127.0.0.1:56272 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
+07:52:39  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (28.7ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:39  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (20.0ms)
+INFO:     127.0.0.1:56272 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
+07:52:39  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
+07:52:39  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (23.6ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
+07:52:39  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (21.8ms)
+INFO:     127.0.0.1:56271 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:40  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (20.6ms)
+INFO:     127.0.0.1:56272 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
+07:52:40  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (20.8ms)
+INFO:     127.0.0.1:56271 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
+07:52:40  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (23.0ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-003/account "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-003?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-003/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:40  INFO     insight-service       GET /insights/cust-003/snapshot -> 200 (9.0ms)
+INFO:     127.0.0.1:56221 - "GET /insights/cust-003/snapshot HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56221 - "GET /health HTTP/1.1" 200 OK
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:40  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (10.4ms)
+INFO:     127.0.0.1:56292 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-001/account "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-001?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-001/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:40  INFO     insight-service       GET /insights/cust-001/snapshot -> 200 (8.7ms)
+INFO:     127.0.0.1:56292 - "GET /insights/cust-001/snapshot HTTP/1.1" 200 OK
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9001/customers/cust-002/account "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/monthly?months=4 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9003/budgets/cust-002?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-05 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-07 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/transactions?month=2026-08 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/recurring?months=3 "HTTP/1.1 200 OK"
+07:52:40  INFO     httpx                 HTTP Request: GET http://localhost:9002/customers/cust-002/summary?month=2026-06 "HTTP/1.1 200 OK"
+07:52:40  INFO     insight-service       GET /insights/cust-002/snapshot -> 200 (8.4ms)
+INFO:     127.0.0.1:56292 - "GET /insights/cust-002/snapshot HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56323 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56323 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56323 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56323 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56340 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56340 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56649 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56649 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56649 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56649 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56649 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56649 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56670 - "GET /health HTTP/1.1" 200 OK

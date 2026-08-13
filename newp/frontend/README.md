@@ -1,73 +1,85 @@
 # frontend — PFA / ledger
 
-React + Vite SPA for the customer journey: account overview, transactions,
-budgets, and the AI advisor chat. Built to run standalone against mock data
-until the Java `api-gateway` is reachable, then switches over automatically.
+React + Vite SPA. Two journeys over the same data: the customer's app
+(overview, transactions, budgets, findings, advisor) and the bank console
+(portfolio, alert queue, customer review).
 
 ## Design
 
 **Ledger / bank-statement aesthetic** — every element lives inside a hard,
 2px-bordered box with zero border-radius; boxes share edges rather than
-floating as cards, so the page reads as one continuous statement rather than
-a dashboard. All monetary figures render in JetBrains Mono with tabular
-numerals and are color-coded (green = credit/under budget, coral =
-debit/over budget) — that consistent ledger typography is the page's
-signature element. Inter carries labels and body copy. Accent color is a
-single banknote gold, used only for active states and the send button.
+floating as cards, so the page reads as one continuous statement rather than a
+dashboard. All money renders in JetBrains Mono with tabular numerals and
+lakh/crore grouping (₹1,45,000, never ₹145,000), colour-coded green for
+credit/under and coral for debit/over — that consistent ledger typography is
+the page's signature. Inter carries labels and body copy. Accent is a single
+banknote gold, used only for active states, projections and the send button.
 
-Tokens live in `src/styles/tokens.css` if you want to retheme.
+Tokens live in `src/styles/tokens.css`. Money formatting lives in
+`src/format.js` — nothing formats a rupee figure inline.
 
 ## Setup
 
 ```bash
-cd frontend
 npm install
-cp .env.example .env      # point VITE_API_BASE_URL at your api-gateway
-npm run dev
+npm run dev          # http://localhost:5173
 ```
 
-Opens at http://localhost:5173
+The backend is expected on `http://localhost:8080`. Override with
+`VITE_API_BASE_URL` in `.env` (see `.env.example`). From the repo root,
+`./start.sh` boots the backend and this together.
 
-## Backend not running yet?
+## Backend not running?
 
-No problem — every API call in `src/api.js` falls back to the bundled
-mock data (`src/mockData.js`, same shape as the real contract) if the
-fetch fails. The UI is fully demoable with zero backend running.
-
-## Build
-
-```bash
-npm run build       # outputs to dist/
-npm run preview     # serve the production build locally
-```
+Every **read** falls back to bundled sample data (`src/mockData.js`), so the UI
+never shows a broken screen — and the status strip under the header says
+"not reachable" while that's happening, so nobody mistakes sample data for
+live data. **Writes** (posting a transaction, applying a budget limit) never
+fall back; they surface the error instead, because pretending a write
+succeeded is worse than failing.
 
 ## Structure
 
 ```
 src/
-  App.jsx                     # page shell, tab routing, data loading
-  api.js                       # fetch client w/ mock fallback
-  mockData.js                   # offline demo data
+  App.jsx                     # shell, tab routing, data loading, refresh
+  api.js                      # gateway client, mock fallback on reads only
+  format.js                   # ₹ formatting, Indian grouping, dates
+  mockData.js                 # offline sample data
   components/
-    Header.jsx                  # brand, tab nav, customer switcher
-    StatBox.jsx                  # overview stat cell
-    TransactionsTable.jsx         # the ledger table
-    BudgetBar.jsx                  # segmented budget progress
-    ChatPanel.jsx                   # AI advisor chat, reasoning shown inline
+    Header.jsx                # brand, tabs, customer switcher
+    SystemStatus.jsx          # live per-service health, polled every 5s
+    StatBox.jsx               # overview stat cell
+    TransactionsTable.jsx     # the ledger table
+    AddTransaction.jsx        # post a spend and watch everything move
+    BudgetBar.jsx             # spend bar + dashed projection tick + reason
+    BudgetSuggestions.jsx     # proposed limits, each with its reason, appliable
+    InsightCard.jsx           # finding → why → what to do → traced to
+    HealthPanel.jsx           # score with its four justified components
+    ChatPanel.jsx             # advisor, reasoning and data points inline
+    BankConsole.jsx           # portfolio, review, alert queue
   styles/
-    tokens.css                  # design tokens (color/type/spacing)
-    global.css                   # resets, .box/.mono/.eyebrow utilities
-    layout.css                    # component + responsive layout
+    tokens.css                # colour / type / spacing
+    global.css                # resets, .box/.mono/.eyebrow utilities
+    layout.css                # component + responsive layout
 ```
 
-## Wiring to the real backend
+## What each tab talks to
 
-Point `VITE_API_BASE_URL` in `.env` at your `api-gateway`. Expected routes
-(adjust `src/api.js` if your gateway uses different paths):
+| Tab | Gateway routes |
+|---|---|
+| overview | `/customers/{id}/{account,transactions,budgets,insights,health-score,summary}` |
+| transactions | the above + `POST /customers/{id}/transactions` |
+| budgets | `/customers/{id}/budgets`, `/budgets/suggestions`, `PUT /budgets/{category}` |
+| insights | `/customers/{id}/insights` |
+| advisor | `POST /chat` |
+| bank | `/bank/summary`, `/bank/portfolio`, `/bank/alerts`, `/bank/customers/{id}/review` |
+| header strip | `/health/system` every 5s |
 
-- `GET /customers`
-- `GET /customers/{id}/account`
-- `GET /customers/{id}/transactions`
-- `GET /customers/{id}/budgets`
-- `POST /chat` — body: `{ customer, transactions, budgets, message }`,
-  same contract as `ai-service`'s `/chat` endpoint.
+## Build
+
+```bash
+npm run build       # dist/
+npm run preview
+npx oxlint
+```
